@@ -1,0 +1,48 @@
+.MuiDropzoneArea-root.box{
+    border-radius: 50px;
+    min-height: 200px;
+}
+.text-center{
+    margin-left: auto;
+    margin-right: auto;
+}
+.dropbox {
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50px;
+}
+.img{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ml{
+    margin-left: auto;
+}
+.mr{
+    margin-right: auto;
+}
+#hashtag{
+    font-size: large;
+}
+#dept{
+    font-size: large;
+}
+.center{
+    margin-right: auto;
+    margin-left: auto;
+    width: 40%;
+}
+.box{
+    border-radius: 40px;
+}
+
+.uploadfilename{
+    font-size: large;
+    padding: 20px;
+}
+
+.deptandhashlabel{
+    font-size: large;
+    padding: 30px 6px 0px 0px;
+}
