@@ -93,13 +93,14 @@ const Admin = () => {
     const submitHandler = (e) => {
         e.preventDefault();
         const uploadData = new FormData();;
-        uploadData.append('file', files[0].file, files[0].file.name);
         uploadData.append('title', title);
         uploadData.append('description', description);
         uploadData.append('contactDetails', contact);
         uploadData.append('organizedBy', organiser);
         uploadData.append('status', status);
         uploadData.append('date', document.getElementById('dat').value);
+        uploadData.append('file', files[0].file, files[0].file.name);
+
         // uploadData['file'] = files[0].file;
         // uploadData['title'] = title;
         // uploadData['description'] = description;
