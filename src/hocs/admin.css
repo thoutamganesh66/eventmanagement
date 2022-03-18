@@ -6,6 +6,9 @@
     margin-left: auto;
     margin-right: auto;
 }
+/* .bodycolor{
+    background-color:#1976d2;
+} */
 .dropbox {
     margin-left: auto;
     margin-right: auto;
@@ -21,9 +24,6 @@
 }
 .mr{
     margin-right: auto;
-}
-#hashtag{
-    font-size: large;
 }
 #dept{
     font-size: large;

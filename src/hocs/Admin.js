@@ -4,19 +4,10 @@ import './admin.css';
 import UploadIMG from '../assets/UploadIMG.png'
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import InputLabel from '@material-ui/core/InputLabel';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-
-import Checkbox from "@material-ui/core/Checkbox";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-
 import TextField from '@material-ui/core/TextField';
+import TextareaAutosize from '@mui/base/TextareaAutosize';
 
 const useStyles = makeStyles((theme) => ({
     submit: {
@@ -83,6 +74,7 @@ const Admin = () => {
     const onStatusChange = (e) => {
         setStatus(e.target.value);
     }
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [contact, setContact] = useState("");
@@ -100,16 +92,31 @@ const Admin = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        const uploadData = new FormData();
-        uploadData.append('document', files[0].file, files[0].file.name);
+        const uploadData = new FormData();;
+        uploadData.append('file', files[0].file, files[0].file.name);
         uploadData.append('title', title);
+        uploadData.append('description', description);
+        uploadData.append('contactDetails', contact);
+        uploadData.append('organizedBy', organiser);
+        uploadData.append('status', status);
+        uploadData.append('date', document.getElementById('dat').value);
+        // uploadData['file'] = files[0].file;
+        // uploadData['title'] = title;
+        // uploadData['description'] = description;
+        // uploadData['contactDetails'] = contact;
+        // uploadData['organizedBy'] = organiser;
+        // uploadData['status'] = status;
 
-        const url = 'http://localhost:8000/api/upload/';
+        const url = 'http://192.168.30.5:5000/admin/addevent';
+
+        //test
+        console.log(uploadData);
+        console.log(title);
 
         axios.post(url, uploadData, {
             headers: {
                 'content-type': 'multipart/form-data',
-                'Authorization': `JWT ${localStorage.getItem('access')}`
+
             }
         })
             .then(res => {
@@ -125,7 +132,7 @@ const Admin = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container bodycolor">
             <div className="d-flex flex-column">
                 <div className="img ">
                     <img src={UploadIMG} />
@@ -135,9 +142,20 @@ const Admin = () => {
                 <label className="uploadfilename">Event Tite:</label>
                 <TextField id="name" name="name" label="Enter event title" value={title} onChange={e => onTitleChange(e)} />
             </div>
-            <div className="text-center">
-                <label className="uploadfilename">Event Description:</label>
-                <TextField id="name" name="name" label="Enter name of file" value={description} onChange={e => onDescriptionChange(e)} />
+            <div className="d-flex flex-column">
+                <div className='text-center'>
+                    <label className="uploadfilename">Event Description:</label>
+                </div>
+                <div className='dropbox p-2'>
+                    <TextareaAutosize
+                        aria-label="minimum height"
+                        minRows={3}
+                        placeholder="Minimum 3 rows"
+                        style={{ width: 200 }}
+                        value={description}
+                        onChange={e => onDescriptionChange(e)}
+                    />
+                </div>
             </div>
             <div className="text-center">
                 <label className="uploadfilename">Contact Details:</label>
@@ -163,8 +181,9 @@ const Admin = () => {
                 <TextField id="name" name="name" label="Enter panel name" value={organiser} onChange={e => onOrganiserChange(e)} />
             </div>
             <div className="text-center">
-                <label className="uploadfilename">Status:</label>
-                <TextField id="name" name="name" label="Enter Status" value={status} onChange={e => onStatusChange(e)} />
+                <label className="uploadfilename">Date:</label>
+                {/* <TextField id="name" name="name" label="Enter Status" value={status} onChange={e => onStatusChange(e)} /> */}
+                <input type="date" id="dat"></input>
             </div>
             <div className="center">
                 <Button
