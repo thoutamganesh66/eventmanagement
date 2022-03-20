@@ -1,66 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { DropzoneAreaBase } from "material-ui-dropzone";
-import './admin.css';
-import UploadIMG from '../assets/UploadIMG.png'
+import {useState, useEffect} from 'react'
+import {DropzoneAreaBase} from "material-ui-dropzone";
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
-import axios from 'axios';
-import { Redirect } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-
-const useStyles = makeStyles((theme) => ({
-    submit: {
-        margin: theme.spacing(3, 0, 6),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        width: 200
-    },
-    indeterminateColor: {
-        color: "#f50057"
-    },
-    selectAllText: {
-        fontWeight: 500
-    },
-    selectedAll: {
-        backgroundColor: "rgba(0, 0, 0, 0.08)",
-        "&:hover": {
-            backgroundColor: "rgba(0, 0, 0, 0.08)"
-        }
-    }
-}));
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250
-        }
-    },
-    getContentAnchorEl: null,
-    anchorOrigin: {
-        vertical: "bottom",
-        horizontal: "center"
-    },
-    transformOrigin: {
-        vertical: "top",
-        horizontal: "center"
-    },
-    variant: "menu"
-};
-
-
+import {Redirect} from 'react-router-dom'
+import axios from 'axios'
+import './admin.css'
+import CustomToolbar from '../Components/markdownToolbar'
+import TextField from '@mui/material/TextField';
 const Admin = () => {
-    const classes = useStyles();
-
+    const panels = ['food', 'arts and culture', 'sports', 'academic', 'training and placements', 'rnd', 'hostel and health']
     const [files, setFiles] = useState([]);
     const [uploaded, isUploaded] = useState(false);
 
@@ -86,6 +33,8 @@ const Admin = () => {
     const [organiser, setOrganiser] = useState("");
     const [status, setStatus] = useState("");
 
+    useEffect(() => {
+    }, [])
     const handleAdd = newFiles => {
         newFiles = newFiles.filter(file => !files.find(f => f.data === file.data));
         setFiles([...files, ...newFiles]);
@@ -96,6 +45,7 @@ const Admin = () => {
     };
 
     const submitHandler = (e) => {
+        console.log(description)
         e.preventDefault();
         const uploadData = new FormData();;
         uploadData.append('title', title);
@@ -106,13 +56,6 @@ const Admin = () => {
         uploadData.append('date', document.getElementById('dat').value);
         uploadData.append('file', files[0].file, files[0].file.name);
 
-        // uploadData['file'] = files[0].file;
-        // uploadData['title'] = title;
-        // uploadData['description'] = description;
-        // uploadData['contactDetails'] = contact;
-        // uploadData['organizedBy'] = organiser;
-        // uploadData['status'] = status;
-
         const url = 'http://192.168.30.5:5000/admin/addevent';
 
         //test
@@ -122,7 +65,6 @@ const Admin = () => {
         axios.post(url, uploadData, {
             headers: {
                 'content-type': 'multipart/form-data',
-
             }
         })
             .then(res => {
@@ -136,85 +78,67 @@ const Admin = () => {
     if (uploaded) {
         return <Redirect to='/' />
     }
-
     return (
-        <div className="container bodycolor">
-            <div className="d-flex flex-column">
-                <div className="img ">
-                    <img src={UploadIMG} />
+        <div className="container">
+
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="title"
+                label="Title"
+                name="title"
+                placeholder="Enter title name"
+                value={title} onChange={e => onTitleChange(e)}
+            />
+            <div className="flex-row">
+                <div className="select">
+                    <select value={organiser} onChange={e => onOrganiserChange(e)}>
+                        {panels.map((item) => {
+                            return <option value={item} key={item}>{item}</option>
+                        })}
+                    </select>
                 </div>
+                <input type="date" id="dat" />
             </div>
-            <div className="text-center">
-                <label className="uploadfilename">Event Tite:</label>
-                <TextField id="name" name="name" label="Enter event title" value={title} onChange={e => onTitleChange(e)} />
+            <div className="flex-row">
+
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="contact"
+                    label="Contact"
+                    name="contact"
+                    placeholder="Enter contact number"
+                    value={contact} onChange={e => onContactChange(e)}
+                />
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    name="email"
+                    placeholder="Enter email"
+                    autoComplete="email"
+                />
             </div>
-            <div className="d-flex flex-column">
-                <div className='text-center'>
-                    <label className="uploadfilename">Event Description:</label>
-                </div>
-                <div className='dropbox p-2'>
-                    <TextareaAutosize
-                        aria-label="minimum height"
-                        minRows={3}
-                        placeholder="Minimum 3 rows"
-                        style={{ width: 200 }}
-                        value={description}
-                        onChange={e => onDescriptionChange(e)}
-                    />
-                </div>
-            </div>
-            <div className="text-center">
-                <label className="uploadfilename">Contact Details:</label>
-                <TextField id="name" name="name" label="Enter phone no" value={contact} onChange={e => onContactChange(e)} />
-            </div>
-            <div className="d-flex flex-column">
-                <div className='text-center'>
-                    <label className="uploadfilename">Event Poster:</label>
-                </div>
-                <div className="dropbox p-2">
-                    <DropzoneAreaBase
-                        type="file"
-                        name="files"
-                        fileObjects={files}
-                        onAdd={handleAdd}
-                        onDelete={handleDelete}
-                        dropzoneClass="box"
-                    />
-                </div>
-            </div>
-            <div className="text-center">
-                <label className="uploadfilename">Orgainsed by:</label>
-                {/* <TextField id="name" name="name" label="Enter panel name" value={organiser} onChange={e => onOrganiserChange(e)} /> */}
-                <Select
-                    value={organiser}
-                    onChange={e => onOrganiserChange(e)}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'panels' }}
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"academics"}>Academics</MenuItem>
-                    <MenuItem value={"arts_and_culture"}>Arts and Culture</MenuItem>
-                    <MenuItem value={"food"}>Food</MenuItem>
-                    <MenuItem value={"hostel_and_health"}>Hostel and Health</MenuItem>
-                    <MenuItem value={"internships"}>Internships</MenuItem>
-                    <MenuItem value={"research_and_dev"}>Research and Developement</MenuItem>
-                    <MenuItem value={"sports"}>Sports</MenuItem>
-                </Select>
-            </div>
-            <div className="text-center">
-                <label className="uploadfilename">Date:</label>
-                {/* <TextField id="name" name="name" label="Enter Status" value={status} onChange={e => onStatusChange(e)} /> */}
-                <input type="date" id="dat"></input>
-            </div>
-            <div className="center">
+            <DropzoneAreaBase
+                type="file"
+                name="files"
+                fileObjects={files}
+                onAdd={handleAdd}
+                onDelete={handleDelete}
+                dropzoneClass="box"
+            />
+            <CustomToolbar description={description} setDescription={setDescription} />
+            <div className="submit">
                 <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
                     onClick={(e) => submitHandler(e)}
                 >
                     Upload
@@ -222,7 +146,5 @@ const Admin = () => {
             </div>
         </div>
     );
-
-};
-
-export default Admin;
+}
+export default Admin
