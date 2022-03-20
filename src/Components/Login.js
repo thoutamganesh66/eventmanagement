@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 
 function Copyright(props) {
     return (
@@ -40,7 +40,7 @@ export default function Login() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
+            <Grid container component="main" sx={{height: '100vh'}}>
                 <CssBaseline />
                 <Grid
                     item
@@ -66,13 +66,13 @@ export default function Login() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
                             <TextField
                                 margin="normal"
                                 required
@@ -101,7 +101,7 @@ export default function Login() {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{mt: 3, mb: 2}}
                             >
                                 Sign In
                             </Button>
@@ -117,7 +117,7 @@ export default function Login() {
                                     </Link>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ mt: 5 }} />
+                            <Copyright sx={{mt: 5}} />
                         </Box>
                     </Box>
                 </Grid>

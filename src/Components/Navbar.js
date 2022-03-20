@@ -6,11 +6,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import './navbar.css'
 
 const Navbar = () => {
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{flexGrow: 1}}>
             <AppBar position="static">
                 <Toolbar className='navtabs'>
                     {/* <IconButton
@@ -22,14 +23,14 @@ const Navbar = () => {
                     >
                         <MenuIcon />
                     </IconButton> */}
-                    <Button variant="filled" href="/">
-                        SGC Arts Panel
+                    <Button  >
+                        <Link to='/' style={{textDecoration: 'inherit', color: 'white'}} > SGC Arts Panel</Link>
                     </Button>
-                    <Button variant="filled" href="/login">
-                        Login
+                    <Button >
+                        <Link to='/login' style={{textDecoration: 'inherit', color: 'white'}}>Login</Link>
                     </Button>
-                    <Button variant="filled" href="/admin">
-                        Admin
+                    <Button >
+                        <Link to='/admin' style={{textDecoration: 'inherit', color: 'white'}}>Admin</Link>
                     </Button>
                 </Toolbar>
             </AppBar>

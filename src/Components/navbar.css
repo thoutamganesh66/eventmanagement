@@ -1,3 +1,9 @@
 .navtabs{
     width: auto;
+    color: white;
+
+}
+.nav-links{
+    text-decoration: inherit;
+    color: white;
 }
