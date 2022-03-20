@@ -5,6 +5,7 @@ import Home from './Components/Home';
 import Layout from './hocs/Layout';
 import Admin from './hocs/admin.js';
 // import Admin from './hocs/Admin'
+import SignUp from './Components/signUp'
 import Event from './Components/event'
 const App = () => (
     <Router>
@@ -14,6 +15,7 @@ const App = () => (
             <Route exact path='/login' component={Login} />
             <Route exact path='/admin' component={Admin} />
             <Route exact path='/event' component={Event} />
+            <Route exact path='/signup' component={SignUp} />
         </Switch>
 
     </Router>

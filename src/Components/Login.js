@@ -1,17 +1,18 @@
-import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import axios from 'axios'
 import Link from '@mui/material/Link';
+import {Link as RouteLink, Redirect} from 'react-router-dom'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import Cookie from 'js-cookie'
 
 function Copyright(props) {
     return (
@@ -27,17 +28,27 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
-
+const transport = axios.create({
+    withCredentials: true,
+})
 export default function Login() {
+    const [userDetails, setUserDetails] = useState({});
+    const [token, setToken] = useState(Cookie.get('token'));
     const handleSubmit = (event) => {
+        console.log(userDetails)
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        transport.post('http://192.168.43.98:5000/login', userDetails).then(res => {
+            console.log(res.data)
+            Cookie.set('token', res.data.token)
+            setToken(res.data.token)
+        }).catch(err => {
+            console.log(err)
+        })
     };
 
+    if (token != null) {
+        return <Redirect to='/' />
+    }
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{height: '100vh'}}>
@@ -79,6 +90,8 @@ export default function Login() {
                                 fullWidth
                                 id="email"
                                 label="Email Address"
+                                value={userDetails.email}
+                                onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
@@ -88,20 +101,18 @@ export default function Login() {
                                 required
                                 fullWidth
                                 name="password"
+                                value={userDetails.password}
                                 label="Password"
                                 type="password"
+                                onChange={(e) => setUserDetails({...userDetails, password: e.target.value})}
                                 id="password"
-                                autoComplete="current-password"
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
                             />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
+                                onClick={(e) => handleSubmit(e)}
                             >
                                 Sign In
                             </Button>
@@ -112,9 +123,11 @@ export default function Login() {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
+                                    <RouteLink to='/signup'>
+                                        <Link variant="body2">
+                                            {"Don't have an account? Sign Up"}
+                                        </Link>
+                                    </RouteLink>
                                 </Grid>
                             </Grid>
                             <Copyright sx={{mt: 5}} />

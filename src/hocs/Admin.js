@@ -46,19 +46,13 @@ const Admin = () => {
         e.preventDefault();
         const uploadData = new FormData();;
         uploadData.append('title', title);
-        uploadData.append('description', description);
+        uploadData.append('description', "jlsaf");
         uploadData.append('contactDetails', contact);
         uploadData.append('organizedBy', organiser);
         uploadData.append('status', status);
         uploadData.append('date', document.getElementById('dat').value);
         uploadData.append('file', files[0].file, files[0].file.name);
 
-        // uploadData['file'] = files[0].file;
-        // uploadData['title'] = title;
-        // uploadData['description'] = description;
-        // uploadData['contactDetails'] = contact;
-        // uploadData['organizedBy'] = organiser;
-        // uploadData['status'] = status;
 
         const url = 'http://192.168.30.5:5000/admin/addevent';
 
@@ -69,7 +63,6 @@ const Admin = () => {
         axios.post(url, uploadData, {
             headers: {
                 'content-type': 'multipart/form-data',
-
             }
         })
             .then(res => {

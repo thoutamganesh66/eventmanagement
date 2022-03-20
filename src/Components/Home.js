@@ -6,7 +6,7 @@ import Slides from './Slides';
 // import TabsDivision from './TabsDivision';
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -16,10 +16,10 @@ import Box from '@mui/material/Box';
 import Posts from './Posts';
 import axios from 'axios';
 import './posts.css'
-import { Button } from '@material-ui/core';
+import {Button} from '@material-ui/core';
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -30,7 +30,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -69,7 +69,7 @@ const Home = () => {
     }
 
     const getReqeuest = async (url) => {
-        const Data = await axios.post(url, { page_factor: 6, page_number: 1 })
+        const Data = await axios.post(url, {page_factor: 6, page_number: 1})
         return Data
     }
 
@@ -111,8 +111,8 @@ const Home = () => {
             <Slides />
 
             {/* Tabs */}
-            <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{width: '100%'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
                         <Tab label="Completed" {...a11yProps(0)} />
                         <Tab label="Ongoing" {...a11yProps(1)} />
