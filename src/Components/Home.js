@@ -18,6 +18,9 @@ import axios from 'axios';
 import './posts.css'
 import { Button } from '@material-ui/core';
 
+import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -80,6 +83,7 @@ const Home = () => {
     const [postsOngoing, setOngoing] = useState();
     const [postsUpcoming, setUpcoming] = useState();
     const [loading, setLoading] = useState(false);
+    const [slidesPosts, setSlidesPosts] = useState([]);
 
     useEffect(() => {
         getReqeuest(url0).then(res => {
@@ -91,6 +95,7 @@ const Home = () => {
         })
         getReqeuest(url1).then(res => {
             console.log(res.data)
+            setSlidesPosts([...slidesPosts, res.data])
             setOngoing(res.data);
             console.log("posts present is ", postsOngoing)
         }).catch(err => {
@@ -98,6 +103,7 @@ const Home = () => {
         })
         getReqeuest(url2).then(res => {
             console.log(res.data)
+            setSlidesPosts([...slidesPosts, res.data])
             setUpcoming(res.data);
             console.log("posts upcoming is ", postsUpcoming)
             setLoading(false);
@@ -106,9 +112,11 @@ const Home = () => {
         })
     }, [])
 
+
+
     return (
-        <div className="container-fluid">
-            <Slides />
+        <div className="container-fluid home">
+            <Slides posts={postsPast} />
 
             {/* Tabs */}
             <Box sx={{ width: '100%' }}>
@@ -130,6 +138,44 @@ const Home = () => {
                 </TabPanel>
             </Box>
 
+            {/* Footer */}
+            <div className="container-fluid footer">
+                <MDBFooter color="green" className="font-small pt-4 mt-4">
+                    <MDBContainer fluid className="text-center text-md-left">
+                        <MDBRow>
+                            <MDBCol md="6">
+                                <h5 className="title">Footer Content</h5>
+                                <p>
+                                    Here you can use rows and columns here to organize your footer
+                                    content.
+                                </p>
+                            </MDBCol>
+                            <MDBCol md="6">
+                                <h5 className="title">Follow us:</h5>
+                                <ul>
+                                    <li className="list-unstyled">
+                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Facebook</a>
+                                    </li>
+                                    <li className="list-unstyled">
+                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Instagram</a>
+                                    </li>
+                                    <li className="list-unstyled">
+                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Twitter</a>
+                                    </li>
+                                    <li className="list-unstyled">
+                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Telegram</a>
+                                    </li>
+                                </ul>
+                            </MDBCol>
+                        </MDBRow>
+                    </MDBContainer>
+                    <div className="footer-copyright text-center py-3">
+                        <MDBContainer fluid>
+                            &copy; {new Date().getFullYear()} Copyright: <a href="https://www.mdbootstrap.com" style={{ textDecoration: 'none', color: '#fefefe' }}> SGC RGUKT Basar</a>
+                        </MDBContainer>
+                    </div>
+                </MDBFooter>
+            </div>
         </div>
     );
 }

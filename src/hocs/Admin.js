@@ -8,6 +8,11 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const useStyles = makeStyles((theme) => ({
     submit: {
@@ -179,7 +184,24 @@ const Admin = () => {
             </div>
             <div className="text-center">
                 <label className="uploadfilename">Orgainsed by:</label>
-                <TextField id="name" name="name" label="Enter panel name" value={organiser} onChange={e => onOrganiserChange(e)} />
+                {/* <TextField id="name" name="name" label="Enter panel name" value={organiser} onChange={e => onOrganiserChange(e)} /> */}
+                <Select
+                    value={organiser}
+                    onChange={e => onOrganiserChange(e)}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'panels' }}
+                >
+                    <MenuItem value="">
+                        <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={"academics"}>Academics</MenuItem>
+                    <MenuItem value={"arts_and_culture"}>Arts and Culture</MenuItem>
+                    <MenuItem value={"food"}>Food</MenuItem>
+                    <MenuItem value={"hostel_and_health"}>Hostel and Health</MenuItem>
+                    <MenuItem value={"internships"}>Internships</MenuItem>
+                    <MenuItem value={"research_and_dev"}>Research and Developement</MenuItem>
+                    <MenuItem value={"sports"}>Sports</MenuItem>
+                </Select>
             </div>
             <div className="text-center">
                 <label className="uploadfilename">Date:</label>

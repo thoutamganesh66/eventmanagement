@@ -1,8 +1,10 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
-import Home from '../Components/Home';
+
 
 const Layout = () => {
+    const description = "This is description";
+    const title = "Cats"
     return (
         <div>
             <Navbar />
