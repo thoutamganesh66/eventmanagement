@@ -1,9 +1,6 @@
-
-// import { TabContext, TabPanel } from '@mui/lab';
-
+// import { FontAwesomeIcon } from '@fontawesome/react-fontawesome'
 import './home.css';
 import Slides from './Slides';
-// import TabsDivision from './TabsDivision';
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
@@ -53,7 +50,7 @@ function a11yProps(index) {
         'aria-controls': `simple-tabpanel-${index}`,
     };
 }
-const Home = () => {
+const Home = ({ getEventDetails }) => {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -128,13 +125,13 @@ const Home = () => {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <Posts posts={postsPast} loading={loading} />
+                    <Posts posts={postsPast} loading={loading} eventDetails={getEventDetails} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <Posts posts={postsOngoing} loading={loading} />
+                    <Posts posts={postsOngoing} loading={loading} eventDetails={getEventDetails} />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <Posts posts={postsUpcoming} loading={loading} />
+                    <Posts posts={postsUpcoming} loading={loading} eventDetails={getEventDetails} />
                 </TabPanel>
             </Box>
 
@@ -154,7 +151,7 @@ const Home = () => {
                                 <h5 className="title">Follow us:</h5>
                                 <ul>
                                     <li className="list-unstyled">
-                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Facebook</a>
+                                        {/* <FontAwesomeIcon icon="fa-brands fa-facebook-f" /> <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Facebook</a> */}
                                     </li>
                                     <li className="list-unstyled">
                                         <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Instagram</a>

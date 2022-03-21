@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     },
 });
 
-const Posts = ({ posts, loading }) => {
+const Posts = ({ posts, loading, eventDetails }) => {
     const classes = useStyles();
 
     const [fileName, setFileName] = useState("");
@@ -39,10 +39,10 @@ const Posts = ({ posts, loading }) => {
     return (
         <>
             <Container maxWidth="md">
-                <Grid container spacing={5} alignItems="flex-end">
+                <Grid container spacing={5} alignItems="flex-end" className="divisionGap">
                     {posts?.map((post) => {
                         return (
-                            <Grid item key={post.id} xs={12} md={4}>
+                            <Grid item key={post.id} xs={12} md={4} >
                                 <Card className={classes.card}>
                                     <CardActionArea>
                                         <CardMedia
@@ -61,7 +61,7 @@ const Posts = ({ posts, loading }) => {
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                        <Link to="/event" className="btn btn-light">View</Link>
+                                        <Link to="/event" className="btn btn-light" onClick={e => eventDetails(post)}>View</Link>
                                     </CardActions>
                                 </Card>
                             </Grid>

@@ -39,8 +39,8 @@ const Navbar = () => {
             <nav className="navbar navbar-light">
                 <div className="container-fluid">
                     <Link to="/" style={{ textDecoration: 'none', color: '#fff' }}><h5 className='title'>SGC Events</h5></Link>
-                    <div className="d-flex mr-4">
-                        <Link to="/" className="btn btn-light">Home</Link>
+                    <div className="d-flex">
+                        <Link to="/" className="btn btn-light mr-2">Home</Link>
                         {isAuthenticated ? guestLinks() : guestLinks()}
                     </div>
                 </div>

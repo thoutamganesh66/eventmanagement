@@ -4,6 +4,7 @@
 
 .footer{
     background-color:#ab47bc;
-    bottom:0;
+    /* position:relative;
+    bottom:0; */
     color:#fff
 }
