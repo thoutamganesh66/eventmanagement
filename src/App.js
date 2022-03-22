@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Switch } from 'react-router-dom';
 import Login from './Components/Login';
 import Home from './Components/Home';
@@ -7,10 +7,13 @@ import Event from './Components/Event';
 import Navbar from './Components/Navbar';
 import SignUp from './Components/signUp';
 import axios from 'axios';
+import Alert from '@mui/material/Alert'
 
 const App = () => {
 
 	const [isAuthenticated, setisAuthenticated] = React.useState({status:false,isAdmin:false})
+	const [error, setError] = useState("");
+	const [success,setSuccess] = useState("");
 	let flag = false
 	const main=async()=>{
 		console.log("App js")
@@ -35,6 +38,7 @@ const App = () => {
 	
 	return(<Router>
 		<Navbar setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated}/>
+		<Alert onClose={() => {}} variant="filled" severity="success" className='alert'>This is a success alert — check it out!</Alert>
 		<Switch>
 			<Route exact path='/' component={Home} />
 			<Route exact path='/login' >

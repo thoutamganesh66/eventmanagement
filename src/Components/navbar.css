@@ -32,3 +32,7 @@ border-radius: 1rem;
   background-color: #303f9f !important;
   color: white !important;
 }
+
+.alert{
+  background-color: #2e7d32 !important;
+}

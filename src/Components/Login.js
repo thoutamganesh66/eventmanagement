@@ -8,6 +8,7 @@ import Link from '@mui/material/Link';
 import {Link as RouteLink} from 'react-router-dom'
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert'
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -59,6 +60,7 @@ export default function Login({setisAuthenticated,isAuthenticated}) {
 
     return (
         <ThemeProvider theme={theme}>
+            <Alert onClose={() => {}}>This is a success alert — check it out!</Alert>
             <Grid container component="main" sx={{height: '100vh'}}>
                 <CssBaseline />
                 <Grid

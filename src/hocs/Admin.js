@@ -88,7 +88,9 @@ const Admin = () => {
     }
     
     if (uploaded) {
-        return <Redirect to='/' />
+
+        history.push('/')
+        window.location.reload();
     }
     return (
         <div className="container">
