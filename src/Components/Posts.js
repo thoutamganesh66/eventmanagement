@@ -59,7 +59,7 @@ const Posts = ({ posts, loading }) => {
                                         </CardContent>
                                     </CardActionArea>
                                     <CardActions>
-                                        <Link to="/event" className="btn btn-light">View</Link>
+                                        <Link to={`/event/${post.eventId}`} className="btn btn-light">View</Link>
                                     </CardActions>
                                 </Card>
                             </Grid>

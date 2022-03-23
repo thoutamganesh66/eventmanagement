@@ -1,56 +1,120 @@
-import React from 'react';
-import { Button } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
 
-const Event = ({ details }) => {
-    return (
-        <div className='container'>
-            <div className="container-fluid">
-                <div className="eventTitle text-center">
-                    <h2>{details.title}</h2>
-                </div>
-                {/* <div className="w-100-ns db vh-100 flex justify-center">
-                    <img
-                        src={`http://192.168.30.5:5000/admin/getimg/${details.eventId}`}
-                        className="tc db vh-75 w-100"
-                        alt="Number one prescription writing software in the country"
-                    />
-                </div> */}
-                <div className='eventPoster text-center'>
-                    <img src={`http://192.168.30.5:5000/admin/getimg/${details.eventId}`} className="eventImage" />
-                </div>
-
-                <div className="row eventDescription">
-                    <div className="col-4 border border-primary">
-                        <h2>Description</h2>
-                    </div>
-                    <div className="col-8 border border-primary">
-                        {details.description}
-                    </div>
-                </div>
-                <div className="row eventDate">
-                    <div className="col-4">
-                        <h2>Date:</h2>
-                    </div>
-                    <div className="col-8">
-                        <p>        {details.date}   </p>
-                    </div>
-                </div>
-                <div className="row organiser">
-                    <div classname="col-4">
-                        <h2>Organised By:</h2>
-                    </div>
-                    <div className="col-8">
-                        <p>{details.organizedBy}</p>
-                    </div>
-                </div>
-                <div className="text-center p-4">
-                    <Button variant="contained" color="success">
-                        Register
-                    </Button>
-                </div>
+const Event = () => {
+  const [eventDetails, seteventDetails] = useState(null);
+  console.log(eventDetails);
+  let { eventId } = useParams();
+  const [isregistered, setIsRegistered] = useState(false);
+  console.log(isregistered);
+  useEffect((e) => {
+    console.log("akdbjadbaiudaidb");
+    axios
+      .post(
+        "http://localhost:5000/getevent",
+        { eventId: eventId },
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        seteventDetails(res.data[0]);
+      })
+      .catch((err) => console.log(err));
+    axios
+      .post("http://localhost:5000/userdetails", { eventId: "food1" })
+      .then((e) => {
+        console.log(e.data);
+        if (e.data) {
+          setIsRegistered(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+  const registerHandler = (e) => {
+    const url = "http://192.168.43.112:5000/addevent";
+    let data = {};
+    data["eventId"] = "food1";
+    data["email"] = "b172321@rgukt.ac.in";
+    data["isRegistered"] = true;
+    data["isAttended"] = false;
+    data["isCancelled"] = false;
+    console.log(data);
+    axios
+      .post(url, data)
+      .then((res) => {
+        console.log("server response", res.data);
+        setIsRegistered(true);
+      })
+      .catch((err) => console.log(err));
+  };
+  return (
+    <>
+      {eventDetails == null ? (
+        <>Loading..</>
+      ) : (
+        <div className="container">
+          <div className=" mb-4 mt-4 text-center event-title">
+            {eventDetails.title}
+          </div>
+          <div className="eventPoster text-center">
+            <img
+              className="eventImage"
+              src={`http://192.168.30.5:5000/admin/getimg/${eventId}`}
+              alt="poster"
+              style={{ maxWidth: "70%", objectFit: "contain" }}
+            />
+          </div>
+          <div className="eventDetails">
+            <div className="group">
+              <div className="head mb-4"> Description</div>
+              <ReactMarkdown
+                children={eventDetails.description}
+                remarkPlugins={[remarkGfm]}
+              />
             </div>
+            <div className="group">
+              <div className="head">
+                Panel:{" "}
+                <span className="panelName">{eventDetails.organizedBy}</span>
+              </div>
+            </div>
+            <div className="group">
+              <div className="head">
+                Date: <span className="panelName">{eventDetails.date.slice(0,10)}</span>
+              </div>
+            </div>
+
+            <div className="buttonDiv">
+              {!isregistered ? (
+                <button
+                  type="button"
+                  className="btn btn-success btn-lg btn-block"
+                  onClick={(e) => registerHandler(e)}
+                >
+                  Register
+                </button>
+              ) : (
+                <button
+                  type="text"
+                  disabled={true}
+                  className="btn btn-secondary btn-lg btn-block"
+                >
+                  Registered
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-    )
-}
+      )}
+    </>
+  );
+};
 
 export default Event;

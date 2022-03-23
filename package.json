@@ -28,6 +28,7 @@
     "react-scripts": "5.0.0",
     "react-swipeable-views": "^0.14.0",
     "reactstrap": "^9.0.1",
+    "remark-gfm": "^3.0.1",
     "simple-react-footer": "^1.0.2",
     "web-vitals": "^2.1.4"
   },

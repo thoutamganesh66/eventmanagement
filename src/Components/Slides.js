@@ -83,8 +83,7 @@ const Slides = ({ posts }) => {
                                     component="img"
                                     sx={{
                                         display: 'block',
-                                        height:350,
-                                        // maxWidth: 800,
+                                        height:400,
                                         overflow: 'hidden',
                                         width: '100%'
                                     }}
@@ -98,6 +97,7 @@ const Slides = ({ posts }) => {
                 </AutoPlaySwipeableViews>
                 <div className='navigationColor'>
                     <MobileStepper
+                    variant='text'
                         steps={maxSteps}
                         position="static"
                         activeStep={activeStep}

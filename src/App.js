@@ -18,13 +18,13 @@ const App = () => {
 	const main=async()=>{
 		console.log("App js")
 		let transport = axios.create({withCredentials:true});
-		let res = await transport.post('http://localhost:5000/verifyuser')
+		let res = await transport.post('http://192.168.30.5:5000/verifyuser')
 		console.log(res.data)
 		if(res.status == 200){
 			setisAuthenticated({...isAuthenticated,status:true})
 			return;
 		}
-		res = await transport.get('http://localhost:5000/admin/verifyadmin')
+		res = await transport.get('http://192.168.30.5:5000/admin/verifyadmin')
 		console.log(res.data)
 		if(res.status == 200){
 			setisAuthenticated({...isAuthenticated,status:true,isAdmin:true})
@@ -47,7 +47,7 @@ const App = () => {
 			<Route exact path='/admin'>
 				<Admin isAdmin = {isAuthenticated.isAdmin}/>
 			</Route>
-			<Route exact path='/event' component={Event} />
+			<Route  path='/event/:eventId' component={Event} />
 			<Route exact path='/signup' component={SignUp} />
 		</Switch>
 
