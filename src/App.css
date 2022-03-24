@@ -1,6 +1,11 @@
 .success{
+    position: sticky;
+    z-index: 3;
+    top:0px;
     background-color: #2e7d32 !important;
 }
 .error{
-    background-color: red !important;
+    position: sticky;
+    top:0px;
+    z-index: 3;
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import MDEditor, {commands, ICommand} from '@uiw/react-md-editor';
+import MDEditor, {commands} from '@uiw/react-md-editor';
 import {
     bold,
     italic,
@@ -13,13 +13,9 @@ import {
     unorderedlist
 } from './customTextTools'
 
-const CustomToolbar = ({description, setDescription}) => {
+const CustomToolbar = ({setDescription}) => {
 
     const [value, setValue] = useState('Hello Markdown!');
-    // const update = (e) => {
-    //     setValue(e.target.value)
-    //     setDescription(e.target.value)
-    // }
 
     return (
         <MDEditor

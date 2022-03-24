@@ -1,12 +1,9 @@
 
-// import { TabContext, TabPanel } from '@mui/lab';
-
 import './home.css';
 import Slides from './Slides';
-// import TabsDivision from './TabsDivision';
 
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -16,13 +13,12 @@ import Box from '@mui/material/Box';
 import Posts from './Posts';
 import axios from 'axios';
 import './posts.css'
-import { Button } from '@material-ui/core';
 
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
+import {MDBCol, MDBContainer, MDBRow, MDBFooter} from "mdbreact";
 
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -33,7 +29,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -56,7 +52,8 @@ function a11yProps(index) {
 const Home = () => {
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (event , newValue) => {
+        console.log("New Value",newValue)
         setValue(newValue);
     };
 
@@ -72,13 +69,13 @@ const Home = () => {
     }
 
     const getReqeuest = async (url) => {
-        const Data = await axios.post(url, { page_factor: 6, page_number: 1 })
+        const Data = await axios.post(url, {page_factor: 6, page_number: 1})
         return Data
     }
-
-    const url0 = `http://192.168.30.5:5000/${statusEvent(0)}`;
-    const url1 = `http://192.168.30.5:5000/${statusEvent(1)}`;
-    const url2 = `http://192.168.30.5:5000/${statusEvent(2)}`;
+    const REACT_APP_API_URL = process.env.REACT_APP_API_URL
+    const url0 = `${REACT_APP_API_URL}/${statusEvent(0)}`;
+    const url1 = `${REACT_APP_API_URL}/${statusEvent(1)}`;
+    const url2 = `${REACT_APP_API_URL}/${statusEvent(2)}`;
     const [postsPast, setpostsPast] = useState();
     const [postsOngoing, setOngoing] = useState();
     const [postsUpcoming, setUpcoming] = useState();
@@ -111,11 +108,12 @@ const Home = () => {
 
     return (
         <div className="container-fluid home">
+            {console.log(value)}
             <Slides posts={postsPast} />
 
             {/* Tabs */}
-            <Box sx={{ width: '100%' }}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{width: '100%'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
                         <Tab label="Completed" {...a11yProps(0)} />
                         <Tab label="Ongoing" {...a11yProps(1)} />
@@ -149,16 +147,16 @@ const Home = () => {
                                 <h5 className="title">Follow us:</h5>
                                 <ul>
                                     <li className="list-unstyled">
-                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Facebook</a>
+                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Facebook</a>
                                     </li>
                                     <li className="list-unstyled">
-                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Instagram</a>
+                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Instagram</a>
                                     </li>
                                     <li className="list-unstyled">
-                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Twitter</a>
+                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Twitter</a>
                                     </li>
                                     <li className="list-unstyled">
-                                        <a href="#!" style={{ textDecoration: 'none', color: '#fff' }}>Telegram</a>
+                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Telegram</a>
                                     </li>
                                 </ul>
                             </MDBCol>
@@ -166,7 +164,7 @@ const Home = () => {
                     </MDBContainer>
                     <div className="footer-copyright text-center py-3">
                         <MDBContainer fluid>
-                            &copy; {new Date().getFullYear()} Copyright: <a href="https://www.mdbootstrap.com" style={{ textDecoration: 'none', color: '#fefefe' }}> SGC RGUKT Basar</a>
+                            &copy; {new Date().getFullYear()} Copyright: <a href="https://www.mdbootstrap.com" style={{textDecoration: 'none', color: '#fefefe'}}> SGC RGUKT Basar</a>
                         </MDBContainer>
                     </div>
                 </MDBFooter>

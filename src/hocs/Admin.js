@@ -9,17 +9,27 @@ import TextField from '@mui/material/TextField';
 import {useHistory} from 'react-router-dom/cjs/react-router-dom.min';
 
 
-const Admin = () => {
+const Admin = ({setSuccess, setError}) => {
+    const REACT_APP_API_URL = process.env.REACT_APP_API_URL
     const history = useHistory();
     const main = async () => {
         let transport = axios.create({withCredentials: true});
-        let res = await transport.get('http://localhost:5000/admin/verifyadmin')
-        if (res.status != 200) {
-            history.push('/')
-        }
-        else {
-            setLoading(false)
-        }
+
+        transport.post(`${REACT_APP_API_URL}/admin/verifyadmin`,
+            {}, {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`
+            }
+        }).then(res => {
+            console.log(res.data)
+            if (res.status == 200) {
+                setLoading(false)
+            } else {
+                history.push('/')
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
     const panels = ['food', 'arts and culture', 'sports', 'academic', 'training and placements', 'rnd', 'hostel and health'];
     const [files, setFiles] = useState([]);
@@ -39,7 +49,6 @@ const Admin = () => {
     const [description, setDescription] = useState("Hello markdown!");
     const [contact, setContact] = useState("");
     const [organiser, setOrganiser] = useState("food");
-    const [status, setStatus] = useState("");
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         main();
@@ -64,9 +73,8 @@ const Admin = () => {
         uploadData.append('date', document.getElementById('dat').value);
         uploadData.append('file', files[0].file, files[0].file.name);
 
-        const url = 'http://192.168.30.5:5000/admin/addevent';
+        const url = `${REACT_APP_API_URL}/admin/addevent`;
 
-        //test
         console.log(uploadData);
         console.log(title);
 
@@ -76,12 +84,21 @@ const Admin = () => {
             }
         })
             .then(res => {
+                if (res.status != 200) {
+                    throw new Error(res.data);
+                }
                 console.log(res.data);
                 isUploaded(true);
                 window.alert("Upload Successful");
+                setError(null)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                setSuccess(null)
+                setError(err.message)
+            })
     }
+
     if (loading) return <div>please wait</div>
     else if (uploaded) {
         return <Redirect to='/' />

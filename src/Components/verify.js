@@ -14,12 +14,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" target="_blank" href="https://sgc.turntbloke.me/">
+                SGC RGUKT Basar
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -37,11 +38,12 @@ export default function Verify({userSignUp, setError, setSuccess}) {
     const [created, setCreated] = useState(false);
     const signup = () => {
 
-        transport.post('http://192.168.43.112:5000/signup', userSignUp).then(res => {
+        transport.post(`${REACT_APP_API_URL}/signup`, userSignUp).then(res => {
             if (res.status != 200) {
                 throw new Error(res.data);
             }
             Cookie.set('token', res.data.token)
+            localStorage.setItem('token',res.data.token)
             setSuccess('Succesfully created account!')
             setError(null)
             setCreated(true)
@@ -54,7 +56,7 @@ export default function Verify({userSignUp, setError, setSuccess}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        transport.post('http://192.168.43.112:5000/verifyotp', data).then(res => {
+        transport.post(`${REACT_APP_API_URL}/verifyotp`, data).then(res => {
             if (res.status == 200) {
                 signup();
             } else {

@@ -7,3 +7,11 @@
     bottom:0;
     color:#fff
 }
+
+.sign-in{
+    line-height: 1.75rem;
+    padding:6px 16px !important;
+    background-color: #1976d2 !important;
+    border-radius: 4px !important;
+    color: white !important;
+}

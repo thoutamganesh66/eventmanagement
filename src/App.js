@@ -1,8 +1,7 @@
 import {useState, useEffect} from 'react'
-import Cookie from 'js-cookie'
 import './App.css'
 import Alert from '@mui/material/Alert'
-import {BrowserRouter as Router, Route, Routes, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Login from './Components/Login';
 import Home from './Components/Home';
 import Admin from './hocs/Admin';
@@ -12,25 +11,42 @@ import SignUp from './Components/signUp';
 import axios from 'axios';
 import ForgotPassword from './Components/forgotpassword'
 const App = () => {
+    const [redirect, setRedirect] = useState('');
+    const REACT_APP_API_URL = process.env.REACT_APP_API_URL
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [isAuthenticated, setisAuthenticated] = useState({status: false, isAdmin: false})
     const main = async () => {
         let transport = axios.create({withCredentials: true});
-        console.log("App js", Cookie.get('token'))
-        let res = await transport.post('http://192.168.30.5:5000/verifyuser')
-        console.log(res.data)
-        if (res.status == 200) {
-            setisAuthenticated({...isAuthenticated, status: true})
+        console.log("App js", localStorage.getItem('token'))
+        transport.post(`${REACT_APP_API_URL}/verifyuser`,
+            {}, {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`
+            }
+        }).then(res => {
+            console.log(res.data)
+            if (res.status == 200) {
+                setisAuthenticated({...isAuthenticated, status: true})
+                return;
+            }
+        }).catch(err => {
+            console.log(err)
+        })
 
-            return;
-        }
-        res = await transport.get('http://192.168.30.5:5000/admin/verifyadmin')
-        console.log(res.data)
-        if (res.status == 200) {
-            setisAuthenticated({...isAuthenticated, status: true, isAdmin: true})
-        }
-
+        transport.post(`{REACT_APP_API_URL}/admin/verifyadmin`,
+            {}, {
+            headers: {
+                'Authorization': `${localStorage.getItem('token')}`
+            }
+        }).then(res => {
+            console.log(res.data)
+            if (res.status == 200) {
+                setisAuthenticated({...isAuthenticated, status: true, isAdmin: true})
+            }
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     useEffect(() => {
@@ -39,21 +55,22 @@ const App = () => {
 
     return (
         <Router>
-            <Navbar setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} />
+            <Navbar setRedirect={setRedirect} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} />
             {error ? <Alert onClose={() => {setError(null)}} className='error' variant="filled" severity="error">
                 {error}            </Alert> : <></>}
-
             {success ? <Alert onClose={() => {setSuccess(null)}} className='success' variant="filled" severity="success">
                 {success}            </Alert> : <></>}
             <Switch>
                 <Route exact path='/' component={Home} />
                 <Route exact path='/login' >
-                    <Login setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} error={error} setError={setError} />
+                    <Login redirect={redirect} setRedirect={setRedirect} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} error={error} setError={setError} />
                 </Route>
                 <Route exact path='/admin'>
-                    <Admin isAdmin={isAuthenticated.isAdmin} />
+                    <Admin isAdmin={isAuthenticated.isAdmin} setError={setError} setSuccess={setSuccess} />
                 </Route>
-                <Route exact path='/event' component={Event} />
+                <Route path='/event/:eventId'>
+                    <Event setRedirect={setRedirect} isAuthenticated={isAuthenticated} setError={setError} setSuccess={setSuccess} />
+                </Route>
                 <Route exact path='/signup'>
                     <SignUp error={error} setError={setError} success={success} setSuccess={setSuccess} />
                 </Route>

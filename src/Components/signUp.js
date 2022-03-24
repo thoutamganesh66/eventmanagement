@@ -1,6 +1,6 @@
 import {useState} from 'react';
+import {Link as RouterLink} from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
-import {useHistory} from 'react-router-dom'
 import axios from 'axios'
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,13 +13,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Verify from './verify'
-
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
+            <Link color="inherit" target="_blank" href="https://sgc.turntbloke.me/">
+                SGC RGUKT Basar
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -42,7 +42,7 @@ export default function SignUp({error, setError, setSuccess}) {
         console.log(process.env.REACT_APP_URL)
         event.preventDefault();
         if (confirmPassword == userSignUp.password) {
-            transport.post(`http://192.168.43.112:5000/sendmail`, {email: userSignUp.email, shouldExist: false}).then(res => {
+            transport.post(`${REACT_APP_API_URL}/sendmail`, {email: userSignUp.email, shouldExist: false}).then(res => {
                 if (res.status != 200) {
                     throw new Error(res.data)
                 } else {
@@ -141,9 +141,11 @@ export default function SignUp({error, setError, setSuccess}) {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
-                                    Already have an account? Sign in
-                                </Link>
+                                <RouterLink to='/login'>
+                                    <Link variant="body2">
+                                        Already have an account? Sign in
+                                    </Link>
+                                </RouterLink >
                             </Grid>
                         </Grid>
                     </Box>

@@ -20,7 +20,7 @@ export const italic = {
     execute: (state, api) => {
         let modifyText = ` *${state.selectedText}*\n`;
         if (!state.selectedText) {
-            modifyText = `**`;
+            modifyText = `*text here*`;
         }
         api.replaceSelection(modifyText);
     },
@@ -34,7 +34,7 @@ export const hline = {
     execute: (state, api) => {
         let modifyText = ` ${state.selectedText}\n-------\n`;
         if (!state.selectedText) {
-            modifyText = `-------\n`;
+            modifyText = `\n-------\n`;
         }
         api.replaceSelection(modifyText);
     },
@@ -48,7 +48,7 @@ export const title = {
     execute: (state, api) => {
         let modifyText = ` #${state.selectedText}\n`;
         if (!state.selectedText) {
-            modifyText = `#Title here`;
+            modifyText = `\n#Title here`;
         }
         api.replaceSelection(modifyText);
     },
@@ -76,7 +76,7 @@ export const quote = {
     execute: (state, api) => {
         let modifyText = ` \n> ${state.selectedText}`;
         if (!state.selectedText) {
-            modifyText = `> Title here`;
+            modifyText = `\n> Title here`;
         }
         api.replaceSelection(modifyText);
     },

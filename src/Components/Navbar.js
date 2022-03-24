@@ -1,13 +1,14 @@
-import {useState, useEffect} from 'react'
 import Cookie from 'js-cookie'
-import {Link, Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import './navbar.css';
 
-const Navbar = ({isAuthenticated, setisAuthenticated}) => {
+const Navbar = ({isAuthenticated, setisAuthenticated, setRedirect}) => {
     const handleButton = () => {
         if (isAuthenticated) {
             Cookie.remove('token')
+            localStorage.removeItem('token')
+            setRedirect('')
             setisAuthenticated({...isAuthenticated, status: false})
         }
 
@@ -21,7 +22,7 @@ const Navbar = ({isAuthenticated, setisAuthenticated}) => {
                     <Link to="/" style={{textDecoration: 'none', color: '#fff'}}><h5 className='title'>SGC Events</h5></Link>
                     <div className="d-flex mr-4">
                         <Link to="/" className="btn btn-light mr-3 nav-btn">Home</Link>
-                        <Link to='/login' class="btn btn-light mr-2 nav-btn" onClick={(e) => handleButton()}>{isAuthenticated.status ? 'logout' : 'login'}</Link>
+                        <Link to='/login' class="btn btn-light mr-2 nav-btn" onClick={(e) => handleButton(e)}>{isAuthenticated.status ? 'Logout' : 'Login'}</Link>
                     </div>
                 </div>
             </nav>

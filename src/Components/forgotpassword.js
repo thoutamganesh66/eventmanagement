@@ -41,7 +41,7 @@ export default function ForgotPassword({setError, setSuccess}) {
         console.log(userDetails)
         setButtons({...buttons, sendButton: true})
         e.preventDefault();
-        transport.post('http://192.168.43.112:5000/sendmail', {email: userDetails.email, shouldExist: true}).then((res) => {
+        transport.post(`${process.env.REACT_APP_API_URL}/sendmail`, {email: userDetails.email, shouldExist: true}).then((res) => {
             if (res.status != 200) {
                 throw new Error(res.data);
             }
@@ -50,6 +50,7 @@ export default function ForgotPassword({setError, setSuccess}) {
             setButtons({...buttons, verifyButton: false})
         }).catch(err => {
             setError(err.message)
+            setButtons({...buttons, sendButton: false})
             setSuccess(null)
             console.log(err)
         })
@@ -59,7 +60,7 @@ export default function ForgotPassword({setError, setSuccess}) {
         setButtons({...buttons, verifyButton: true})
         console.log(otp)
         e.preventDefault();
-        transport.post('http://192.168.43.112:5000/verifyotp', {otp: otp, email: userDetails.email}).then((res) => {
+        transport.post(`${process.env.REACT_APP_API_URL}/verifyotp`, {otp: otp, email: userDetails.email}).then((res) => {
             if (res.status != 200) {
                 throw new Error(res.data);
             }
@@ -78,7 +79,7 @@ export default function ForgotPassword({setError, setSuccess}) {
         e.preventDefault();
         if (confirmpassword == userDetails.password) {
 
-            transport.post('http://192.168.43.112:5000/changepassword', {...userDetails, secret: "asdasdknafnalkdfsdnfusdkljsfs"}).then((res) => {
+            transport.post(`${process.env.REACT_APP_API_URL}/changepassword`, {...userDetails, secret: "asdasdknafnalkdfsdnfusdkljsfs"}).then((res) => {
                 if (res.status != 200) {
                     throw new Error(res.data);
                 }

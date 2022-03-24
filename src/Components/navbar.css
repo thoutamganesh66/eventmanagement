@@ -1,13 +1,9 @@
-/* .navtabs{
-    width: auto;
-} */
 
 .color{
     background-color:#303f9f;
 }
 
 .title{
-    /* color: black; */
     font-family: 'Bebas Neue';
     font-size: xx-large;
 }
@@ -22,7 +18,6 @@
 .profilecontainer{
   background: cadetblue;
 padding: 30px;
-/* margin-top: -60px; */
 width: 150%;
 border-radius: 1rem;
 }
@@ -31,4 +26,14 @@ border-radius: 1rem;
   margin: 10px;
   background-color: #303f9f !important;
   color: white !important;
+}
+.nav-btn:hover{
+    background-color: white !important;
+    color:black !important;
+}
+.typograph{
+  font-weight: bold;
+  height: 30px !important;
+  text-align: left !important;
+  margin-left: 10px;
 }
