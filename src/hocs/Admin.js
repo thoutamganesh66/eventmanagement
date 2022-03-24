@@ -31,7 +31,8 @@ const Admin = ({setSuccess, setError}) => {
             console.log(err)
         })
     }
-    const panels = ['food', 'arts and culture', 'sports', 'academic', 'training and placements', 'rnd', 'hostel and health'];
+    const panels = ['Food', 'Arts and Culture', 'Sports', 'Academics', 'Training and Placements', 'Research and Development', 'Hostel and Health'];
+
     const [files, setFiles] = useState([]);
     const [uploaded, isUploaded] = useState(false);
 
@@ -48,8 +49,9 @@ const Admin = ({setSuccess, setError}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("Hello markdown!");
     const [contact, setContact] = useState("");
-    const [organiser, setOrganiser] = useState("food");
+    const [organiser, setOrganiser] = useState("Food");
     const [loading, setLoading] = useState(true);
+    const [seatCount, setSeatCount] = useState(null)
     useEffect(() => {
         main();
     }, [])
@@ -72,6 +74,7 @@ const Admin = ({setSuccess, setError}) => {
         uploadData.append('organizedBy', organiser);
         uploadData.append('date', document.getElementById('dat').value);
         uploadData.append('file', files[0].file, files[0].file.name);
+        uploadData.append('seatCount', seatCount)
 
         const url = `${REACT_APP_API_URL}/admin/addevent`;
 
@@ -139,12 +142,14 @@ const Admin = ({setSuccess, setError}) => {
                 />
                 <TextField
                     margin="normal"
-                    required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    placeholder="Enter email"
+                    required
+                    type="number"
+                    id="setCount"
+                    label="Seat Count"
+                    name="setCount"
+                    onChange={(e) => setSeatCount(e.target.value)}
+                    placeholder="Enter seat count.(optional)"
                     autoComplete="email"
                 />
             </div>

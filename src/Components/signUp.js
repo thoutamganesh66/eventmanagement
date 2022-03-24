@@ -13,6 +13,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Verify from './verify'
+
+import Footer from './Footer';
+
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 function Copyright(props) {
     return (
@@ -67,6 +70,7 @@ export default function SignUp({error, setError, setSuccess}) {
         return <Verify userSignUp={userSignUp} error={error} setError={setError} setSuccess={setSuccess} />
     }
     return (
+        <>
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -132,6 +136,7 @@ export default function SignUp({error, setError, setSuccess}) {
                         </Grid>
                         <Button
                             type="submit"
+        className="sign-in"
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
@@ -153,5 +158,8 @@ export default function SignUp({error, setError, setSuccess}) {
                 <Copyright sx={{mt: 5}} />
             </Container>
         </ThemeProvider>
+        {Footer}
+        <Footer/>
+        </>
     );
 }

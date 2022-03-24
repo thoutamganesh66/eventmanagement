@@ -10,6 +10,9 @@ import Navbar from './Components/Navbar';
 import SignUp from './Components/signUp';
 import axios from 'axios';
 import ForgotPassword from './Components/forgotpassword'
+
+import Scanner from './Components/Scanner';
+
 const App = () => {
     const [redirect, setRedirect] = useState('');
     const REACT_APP_API_URL = process.env.REACT_APP_API_URL
@@ -34,7 +37,7 @@ const App = () => {
             console.log(err)
         })
 
-        transport.post(`{REACT_APP_API_URL}/admin/verifyadmin`,
+        transport.post(`${REACT_APP_API_URL}/admin/verifyadmin`,
             {}, {
             headers: {
                 'Authorization': `${localStorage.getItem('token')}`
@@ -56,9 +59,9 @@ const App = () => {
     return (
         <Router>
             <Navbar setRedirect={setRedirect} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} />
-            {error ? <Alert onClose={() => {setError(null)}} className='error' variant="filled" severity="error">
+            {error ? <Alert onClose={() => {setError(null)}} className='error br-0' variant="filled" severity="error">
                 {error}            </Alert> : <></>}
-            {success ? <Alert onClose={() => {setSuccess(null)}} className='success' variant="filled" severity="success">
+            {success ? <Alert onClose={() => {setSuccess(null)}} className='success br-0' variant="filled" severity="success">
                 {success}            </Alert> : <></>}
             <Switch>
                 <Route exact path='/' component={Home} />
@@ -77,6 +80,10 @@ const App = () => {
 
                 <Route exact path='/resetpassword' >
                     <ForgotPassword error={error} setError={setError} setSuccess={setSuccess} />
+                </Route>
+
+                <Route exact path ='/scanner'>
+                    <Scanner/>
                 </Route>
             </Switch>
 

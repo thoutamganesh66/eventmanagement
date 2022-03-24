@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 
+import Footer from './Footer';
+
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -99,6 +101,7 @@ export default function ForgotPassword({setError, setSuccess}) {
     }
     if (redirect) return <Redirect to='/' />
     return (
+        <>
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -167,7 +170,10 @@ export default function ForgotPassword({setError, setSuccess}) {
                             name="New passoword"
                             label="New password"
                             type="password"
-                            onChange={(e) => {setUserDetails({...userDetails, password: e.target.value})}}
+                            onChange={(e) => {
+                                setUserDetails({...userDetails, password: e.target.value});
+                                setButtons({...buttons, submitButton: false})
+                            }}
                             id="password"
                         />
 
@@ -177,13 +183,17 @@ export default function ForgotPassword({setError, setSuccess}) {
                             fullWidth
                             name="Confirm password"
                             label="Confirm password"
-                            onChange={(e) => {setConfirmPassword(e.target.value)}}
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value);
+                                setButtons({...buttons, submitButton: false})
+                            }}
                             type="password"
                             id="password"
                         />
                         <Button
                             type="submit"
                             fullWidth
+                            className="sign-in"
                             onClick={(e) => changepassword(e)}
                             variant="contained"
                             disabled={buttons.submitButton}
@@ -196,5 +206,8 @@ export default function ForgotPassword({setError, setSuccess}) {
                 <Copyright sx={{mt: 8, mb: 4}} />
             </Container>
         </ThemeProvider>
+        {Footer}
+        <Footer/>
+        </>
     );
 }

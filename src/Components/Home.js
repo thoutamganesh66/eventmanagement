@@ -14,7 +14,7 @@ import Posts from './Posts';
 import axios from 'axios';
 import './posts.css'
 
-import {MDBCol, MDBContainer, MDBRow, MDBFooter} from "mdbreact";
+import Footer from './Footer';
 
 
 function TabPanel(props) {
@@ -52,8 +52,8 @@ function a11yProps(index) {
 const Home = () => {
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event , newValue) => {
-        console.log("New Value",newValue)
+    const handleChange = (event, newValue) => {
+        console.log("New Value", newValue)
         setValue(newValue);
     };
 
@@ -80,23 +80,30 @@ const Home = () => {
     const [postsOngoing, setOngoing] = useState();
     const [postsUpcoming, setUpcoming] = useState();
     const [loading, setLoading] = useState(false);
-    const [slidesPosts, setSlidesPosts] = useState([]);
-
-    useEffect(() => {
+    // useEffect(() => {
+    //     setSlidesPosts([...postsOngoing, ...postsUpcoming])
+    //     console.log("join", slidesPosts)
+    // },[postsOngoing,postsUpcoming])
+    useEffect(async() => {
         getReqeuest(url0).then(res => {
             setpostsPast(res.data);
         }).catch(err => {
             console.log(err)
         })
+        // try{
+        //     let res1 = await getReqeuest(url1)
+        //     let res2 = awa
+        // }
+        // catch(err){
+        //     console.log(err)
+        // }
         getReqeuest(url1).then(res => {
-            setSlidesPosts([...slidesPosts, res.data])
             setOngoing(res.data);
         }).catch(err => {
             console.log(err)
         })
         getReqeuest(url2).then(res => {
             console.log(res.data)
-            setSlidesPosts([...slidesPosts, res.data])
             setUpcoming(res.data);
             setLoading(false);
         }).catch(err => {
@@ -105,12 +112,11 @@ const Home = () => {
     }, [])
 
 
-
+    
     return (
+        <>
         <div className="container-fluid home">
-            {console.log(value)}
-            <Slides posts={postsPast} />
-
+            {postsOngoing !== undefined && postsUpcoming!== undefined?<Slides postsOngoing={postsOngoing} postsUpcoming={postsUpcoming} />:"Loading"}
             {/* Tabs */}
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -130,46 +136,10 @@ const Home = () => {
                     <Posts posts={postsUpcoming} loading={loading} />
                 </TabPanel>
             </Box>
-
-            {/* Footer */}
-            <div className="container-fluid footer">
-                <MDBFooter color="green" className="font-small pt-4 mt-4">
-                    <MDBContainer fluid className="text-center text-md-left">
-                        <MDBRow>
-                            <MDBCol md="6">
-                                <h5 className="title">Footer Content</h5>
-                                <p>
-                                    Here you can use rows and columns here to organize your footer
-                                    content.
-                                </p>
-                            </MDBCol>
-                            <MDBCol md="6">
-                                <h5 className="title">Follow us:</h5>
-                                <ul>
-                                    <li className="list-unstyled">
-                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Facebook</a>
-                                    </li>
-                                    <li className="list-unstyled">
-                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Instagram</a>
-                                    </li>
-                                    <li className="list-unstyled">
-                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Twitter</a>
-                                    </li>
-                                    <li className="list-unstyled">
-                                        <a href="#!" style={{textDecoration: 'none', color: '#fff'}}>Telegram</a>
-                                    </li>
-                                </ul>
-                            </MDBCol>
-                        </MDBRow>
-                    </MDBContainer>
-                    <div className="footer-copyright text-center py-3">
-                        <MDBContainer fluid>
-                            &copy; {new Date().getFullYear()} Copyright: <a href="https://www.mdbootstrap.com" style={{textDecoration: 'none', color: '#fefefe'}}> SGC RGUKT Basar</a>
-                        </MDBContainer>
-                    </div>
-                </MDBFooter>
-            </div>
         </div>
+        {Footer}
+        <Footer/>
+        </>
     );
 }
 

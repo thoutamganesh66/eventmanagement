@@ -14,7 +14,7 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Cookie from 'js-cookie'
 import {useHistory} from 'react-router-dom';
 
-
+import Footer from './Footer';
 
 function Copyright(props) {
     return (
@@ -42,7 +42,7 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
 
     const [userDetails, setUserDetails] = useState({});
     const handleSubmit = (event) => {
-        console.log("api url", process.env)
+        console.log("api url", process.env.REACT_APP_API_URL)
         event.preventDefault();
         transport.post(`${process.env.REACT_APP_API_URL}/login`, userDetails).then(res => {
             if (res.data.token != undefined) {
@@ -64,6 +64,7 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
 
 
     return (
+        <>
         <ThemeProvider theme={theme} className="text-center">
             <Grid container component="main" sx={{height: '100vh'}} className="text-center">
                 <Grid item xs={12} component={Paper} elevation={6} square>
@@ -138,5 +139,8 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                 </Grid>
             </Grid>
         </ThemeProvider>
+        {Footer}
+        <Footer/>
+        </>
     );
 }

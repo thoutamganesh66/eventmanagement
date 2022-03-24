@@ -5,9 +5,30 @@ import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import {useHistory} from "react-router-dom/cjs/react-router-dom.min";
 
+import Footer from './Footer';
 
-const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
+
+const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => { 
+    const [isAdmin, setIsAdmin] = useState(false);  
+    const main = async () => {
+    let transport = axios.create({withCredentials: true});
+
+    transport.post(`${process.env.REACT_APP_API_URL}/admin/verifyadmin`,
+        {}, {
+        headers: {
+            'Authorization': `${localStorage.getItem('token')}`
+        }
+    }).then(res => {
+        console.log(res.data)
+        if (res.status == 200) {
+            setIsAdmin(true)
+        }
+    }).catch((err) => {
+        console.log(err)
+    })
+}
     const history = useHistory();
+    console.log(isAuthenticated)
     const [eventDetails, seteventDetails] = useState(null);
     console.log(eventDetails);
     let {eventId} = useParams();
@@ -39,6 +60,7 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                 }
             })
             .catch((err) => console.log(err));
+            main();
     }, []);
     const registerHandler = (e) => {
         if (!isAuthenticated.status)
@@ -77,7 +99,8 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
             {eventDetails == null ? (
                 <>Loading..</>
             ) : (
-                <div className="container">
+                <>
+                <div className="container" style={{minHeight:"20rem"}}>
                     <div className=" mb-3 mt-4 text-center event-title">
                         {eventDetails.title}
                     </div>
@@ -89,7 +112,7 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                             style={{maxWidth: "70%", objectFit: "contain"}}
                         />
                     </div>
-                    <div className="eventDetails">
+                    <div className="eventDetails container">
                         <div className="group">
                             <div className="head mb-4"> Description</div>
                             <ReactMarkdown
@@ -97,22 +120,24 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                                 remarkPlugins={[remarkGfm]}
                             />
                         </div>
-                        <div className="group">
-                            <div className="head">
-                                Panel:{" "}
+                        <div className="">
+                            <div className="">
+                                <b>Panel:{" "}</b>
                                 <span className="panelName">{eventDetails.organizedBy}</span>
                             </div>
                         </div>
-                        <div className="group">
-                            <div className="head">
-                                Date: <span className="panelName">{eventDetails.date.slice(0, 10)}</span>
+                        <div className="">
+                            <div className="">
+                                <b>Date:</b> <span className="panelName">{eventDetails.date.slice(0, 10)}</span>
                             </div>
                         </div>
-                        <div className="group">
-                            <div className="head">
-                                Number of Registrations: <span className="panelName">{eventDetails.count}</span>
-                            </div>
-                        </div>
+                        {isAdmin ?
+                            <div className="group">
+                                <div className="head">
+                                    Number of Registrations: <span className="panelName">{eventDetails.seatsFilled}</span>
+                                </div>
+                            </div> : <></>
+                        }
                         <div className="buttonDiv">
                             {!isregistered ? (
                                 <button
@@ -134,6 +159,9 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                         </div>
                     </div>
                 </div>
+                {Footer}
+                <Footer/>
+                </>
             )}
         </>
     );

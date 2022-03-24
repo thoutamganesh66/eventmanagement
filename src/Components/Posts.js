@@ -32,7 +32,7 @@ const Posts = ({posts, loading}) => {
 
     return (
         <>
-            <Container maxWidth="md">
+            <Container maxWidth="md" style={{minHeight:"50rem"}}>
                 <Grid container spacing={5} alignItems="flex-end">
                     {posts?.map((post) => {
                         return (
