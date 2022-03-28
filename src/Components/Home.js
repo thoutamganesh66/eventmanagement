@@ -80,23 +80,13 @@ const Home = () => {
     const [postsOngoing, setOngoing] = useState();
     const [postsUpcoming, setUpcoming] = useState();
     const [loading, setLoading] = useState(false);
-    // useEffect(() => {
-    //     setSlidesPosts([...postsOngoing, ...postsUpcoming])
-    //     console.log("join", slidesPosts)
-    // },[postsOngoing,postsUpcoming])
-    useEffect(async() => {
+
+    useEffect(() => {
         getReqeuest(url0).then(res => {
             setpostsPast(res.data);
         }).catch(err => {
             console.log(err)
         })
-        // try{
-        //     let res1 = await getReqeuest(url1)
-        //     let res2 = awa
-        // }
-        // catch(err){
-        //     console.log(err)
-        // }
         getReqeuest(url1).then(res => {
             setOngoing(res.data);
         }).catch(err => {
@@ -112,33 +102,33 @@ const Home = () => {
     }, [])
 
 
-    
+
     return (
         <>
-        <div className="container-fluid home">
-            {postsOngoing !== undefined && postsUpcoming!== undefined?<Slides postsOngoing={postsOngoing} postsUpcoming={postsUpcoming} />:"Loading"}
-            {/* Tabs */}
-            <Box sx={{width: '100%'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-                        <Tab label="Completed" {...a11yProps(0)} />
-                        <Tab label="Ongoing" {...a11yProps(1)} />
-                        <Tab label="Upcoming" {...a11yProps(2)} />
-                    </Tabs>
+            <div className="container-fluid home">
+                {postsOngoing !== undefined && postsUpcoming !== undefined ? <Slides postsOngoing={postsOngoing} postsUpcoming={postsUpcoming} /> : "Loading"}
+                {/* Tabs */}
+                <Box sx={{width: '100%'}}>
+                    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
+                            <Tab label="Completed" {...a11yProps(0)} />
+                            <Tab label="Ongoing" {...a11yProps(1)} />
+                            <Tab label="Upcoming" {...a11yProps(2)} />
+                        </Tabs>
+                    </Box>
+                    <TabPanel value={value} index={0}>
+                        <Posts posts={postsPast} key="postsPast" loading={loading} />
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <Posts posts={postsOngoing} key="postsOngoing" loading={loading} />
+                    </TabPanel>
+                    <TabPanel value={value} index={2}>
+                        <Posts posts={postsUpcoming} key="postsUpcoming" loading={loading} />
+                    </TabPanel>
                 </Box>
-                <TabPanel value={value} index={0}>
-                    <Posts posts={postsPast} loading={loading} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <Posts posts={postsOngoing} loading={loading} />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Posts posts={postsUpcoming} loading={loading} />
-                </TabPanel>
-            </Box>
-        </div>
-        {Footer}
-        <Footer/>
+            </div>
+            {Footer}
+            <Footer />
         </>
     );
 }

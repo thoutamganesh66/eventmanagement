@@ -1,11 +1,16 @@
 
 .color{
-    background-color:#303f9f;
+    background-color:white;
+    margin-bottom: 10px;
+    position: sticky;
+    top:0px;
+    z-index:2;
 }
 
 .title{
     font-family: 'Bebas Neue';
     font-size: xx-large;
+    color:black;
 }
 
 .label {
@@ -24,12 +29,12 @@ border-radius: 1rem;
 
 .nav-btn{
   margin: 10px;
-  background-color: #303f9f !important;
-  color: white !important;
+  background-color: white !important;
+  color: black!important;
 }
 .nav-btn:hover{
-    background-color: white !important;
-    color:black !important;
+    background-color: #1976d2 !important;
+    color:white !important;
 }
 .typograph{
   font-weight: bold;

@@ -1,4 +1,6 @@
 import {useState, useEffect} from 'react'
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import Alert from '@mui/material/Alert'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -14,6 +16,7 @@ import ForgotPassword from './Components/forgotpassword'
 import Scanner from './Components/Scanner';
 
 const App = () => {
+
     const [redirect, setRedirect] = useState('');
     const REACT_APP_API_URL = process.env.REACT_APP_API_URL
     const [error, setError] = useState(null);
@@ -58,6 +61,7 @@ const App = () => {
 
     return (
         <Router>
+            <ToastContainer />
             <Navbar setRedirect={setRedirect} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} />
             {error ? <Alert onClose={() => {setError(null)}} className='error br-0' variant="filled" severity="error">
                 {error}            </Alert> : <></>}
@@ -79,11 +83,11 @@ const App = () => {
                 </Route>
 
                 <Route exact path='/resetpassword' >
-                    <ForgotPassword error={error} setError={setError} setSuccess={setSuccess} />
+                    <ForgotPassword isAuthenticated={isAuthenticated} setIsAuthenticated={setisAuthenticated} error={error} setError={setError} setSuccess={setSuccess} />
                 </Route>
 
-                <Route exact path ='/scanner'>
-                    <Scanner/>
+                <Route exact path='/scanner'>
+                    <Scanner />
                 </Route>
             </Switch>
 

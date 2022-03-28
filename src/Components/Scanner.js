@@ -31,7 +31,6 @@ function Scanner() {
           }
           else{
             axios.post(`${process.env.REACT_APP_API_URL}/isAttended`,{email:a[1],eventId:a[2]}).then(res=>{
-              qrScanner.stop();
               window.alert(res.data)
             })
 

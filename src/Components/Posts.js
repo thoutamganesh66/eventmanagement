@@ -29,14 +29,14 @@ const Posts = ({posts, loading}) => {
     if (loading) {
         return <h2>Loading...</h2>
     }
-
+    console.log("posts", posts)
     return (
         <>
-            <Container maxWidth="md" style={{minHeight:"50rem"}}>
+            <Container maxWidth="md" style={{minHeight: "50rem"}}>
                 <Grid container spacing={5} alignItems="flex-end">
                     {posts?.map((post) => {
                         return (
-                            <Grid item key={post.id} xs={12} md={4}>
+                            <Grid item key={post.eventId} xs={12} md={4}>
                                 <Card className={classes.card}>
                                     <CardActionArea>
                                         <CardMedia
@@ -45,10 +45,10 @@ const Posts = ({posts, loading}) => {
                                             title="title name"
                                         />
                                         <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2">
+                                            <Typography gutterBottom variant="h5" component="h2" className="text-truncate" >
                                                 {post.title}
                                             </Typography>
-                                            <div className="d-flex flex-row">
+                                            <div className="d-flex flex-row text-truncate">
                                                 <label>Panel:</label>
                                                 {post.organizedBy}
                                             </div>

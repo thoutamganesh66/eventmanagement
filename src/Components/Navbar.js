@@ -13,11 +13,9 @@ const Navbar = ({isAuthenticated, setisAuthenticated, setRedirect}) => {
         }
 
     }
-
-
     return (
-        <div className="color">
-            <nav className="navbar navbar-light">
+        <div className="color shadow-sm">
+            <nav className="navbar navbar-light" style={{padding: 'none'}}>
                 <div className="container-fluid">
                     <Link to="/" style={{textDecoration: 'none', color: '#fff'}}><h5 className='title'>SGC Events</h5></Link>
                     <div className="d-flex mr-4">

@@ -1,40 +1,41 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Footer from './Footer';
+import axios from 'axios'
+import Cookie from 'js-cookie'
+import {Link as RouteLink, useHistory} from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import axios from 'axios'
 import Link from '@mui/material/Link';
-import {Link as RouteLink} from 'react-router-dom'
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import Cookie from 'js-cookie'
-import {useHistory} from 'react-router-dom';
-
-import Footer from './Footer';
-
-function Copyright(props) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" target="_blank" href="https://sgc.turntbloke.me/">
-                SGC RGUKT Basar
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 
 const theme = createTheme();
+
 const transport = axios.create({
     withCredentials: true,
 })
 export default function Login({setisAuthenticated, isAuthenticated, setError, redirect}) {
+    const [buttonstate, setButtonState] = useState(false)
+    const notify = (msg) => {
+        toast.error(`${msg}`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
     const history = useHistory()
     if (isAuthenticated.status) {
         history.push(`/${redirect}`)
@@ -42,6 +43,7 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
 
     const [userDetails, setUserDetails] = useState({});
     const handleSubmit = (event) => {
+        setButtonState(true)
         console.log("api url", process.env.REACT_APP_API_URL)
         event.preventDefault();
         transport.post(`${process.env.REACT_APP_API_URL}/login`, userDetails).then(res => {
@@ -50,28 +52,31 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                 localStorage.setItem('token', res.data.token)
                 setisAuthenticated({...isAuthenticated, status: true})
                 setError(null)
+
             }
             else {
-                setError(res.data)
+                // setError(res.data)
                 console.log(res.data)
+                notify(res.data)
+                setButtonState(false)
             }
         }).catch(err => {
             console.log(err)
             setError(err)
+            setButtonState(false)
         })
     };
 
 
-
     return (
         <>
-        <ThemeProvider theme={theme} className="text-center">
-            <Grid container component="main" sx={{height: '100vh'}} className="text-center">
-                <Grid item xs={12} component={Paper} elevation={6} square>
+            <ToastContainer />
+            <ThemeProvider theme={theme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
                     <Box
                         sx={{
-                            my: 8,
-                            mx: 4,
+                            marginTop: 8,
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -83,7 +88,7 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
                             <TextField
                                 margin="normal"
                                 required
@@ -108,12 +113,13 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                                 id="password"
                             />
                             <Button
-                                type="submit"
+                                type="button"
                                 fullWidth
                                 variant="contained"
-                                className="sign-in"
+                                disable={userDetails.password && userDetails.email && buttonstate}
+                                className={buttonstate ? "disable-sign-in" : "sign-in"}
                                 sx={{mt: 3, mb: 2}}
-                                onClick={(e) => handleSubmit(e)}
+                                onClick={e => handleSubmit(e)}
                             >
                                 Sign In
                             </Button>
@@ -133,14 +139,11 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                                     </RouteLink>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{mt: 5}} />
                         </Box>
                     </Box>
-                </Grid>
-            </Grid>
-        </ThemeProvider>
-        {Footer}
-        <Footer/>
+                </Container>
+            </ThemeProvider>
+            <Footer />
         </>
-    );
+    )
 }

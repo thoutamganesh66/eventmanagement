@@ -37,18 +37,15 @@ const Slides = ({postsOngoing, postsUpcoming}) => {
     const handleStepChange = (step) => {
         setActiveStep(step);
     };
-    console.log(posts)
-    console.log("heoo wlr", postsOngoing, postsUpcoming)
     useEffect(() => {
         let temp = postsOngoing;
         temp = temp.concat(postsUpcoming)
-        // console.log(temp)
         setPosts(temp)
     }, [])
 
     return (
         // <div>hellow</div>
-        <div className="carousel-container">
+        <div className="carousel-container" style={{backgroundColor:"transparent"}}>
             <div className="carousel">
                 <Box sx={{}} className='text-center'>
                     <Paper
