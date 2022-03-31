@@ -13,7 +13,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import Footer from './Footer';
 
 
 const theme = createTheme();
@@ -143,12 +142,12 @@ export default function ForgotPassword({setError, setSuccess, isAuthenticated, s
             });
         }
     }
-    if (isAuthenticated.status) return <Redirect to ='/' />
+    if (isAuthenticated.status) return <Redirect to='/' />
     else if (redirect) return <Redirect to='/' />
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
+                <Container component="main" maxWidth="xs" style={{marginBottom: "8rem"}}>
                     <CssBaseline />
                     <Box
                         sx={{
@@ -256,8 +255,6 @@ export default function ForgotPassword({setError, setSuccess, isAuthenticated, s
                     </Box>
                 </Container>
             </ThemeProvider>
-            {Footer}
-            <Footer />
         </>
     );
 }

@@ -29,7 +29,8 @@ const Posts = ({posts, loading}) => {
     if (loading) {
         return <h2>Loading...</h2>
     }
-    console.log("posts", posts)
+    if (posts?.length == 0) return <h1> NO EVENTS</h1>
+    // console.log("posts", posts)
     return (
         <>
             <Container maxWidth="md" style={{minHeight: "50rem"}}>
@@ -38,22 +39,25 @@ const Posts = ({posts, loading}) => {
                         return (
                             <Grid item key={post.eventId} xs={12} md={4}>
                                 <Card className={classes.card}>
-                                    <CardActionArea>
-                                        <CardMedia
-                                            className={classes.media}
-                                            image={`${process.env.REACT_APP_API_URL}/admin/getimg/${post.eventId}`}
-                                            title="title name"
-                                        />
-                                        <CardContent>
-                                            <Typography gutterBottom variant="h5" component="h2" className="text-truncate" >
-                                                {post.title}
-                                            </Typography>
-                                            <div className="d-flex flex-row text-truncate">
-                                                <label>Panel:</label>
-                                                {post.organizedBy}
-                                            </div>
-                                        </CardContent>
-                                    </CardActionArea>
+                                    <Link to={`/event/${post.eventId}`} style={{textDecoration: "inherit", color: "inherit"}}>
+                                        <CardActionArea>
+                                            <CardMedia
+                                                className={classes.media}
+                                                image={`${process.env.REACT_APP_API_URL}/admin/getimg/${post.eventId}`}
+                                                title="title name"
+                                            />
+                                            <CardContent>
+                                                <Typography gutterBottom variant="h5" component="h2" className="text-truncate" >
+                                                    {post.title}
+                                                </Typography>
+                                                <div className="d-flex flex-row text-truncate">
+                                                    <label>Panel:
+                                                        <span className="p-2">{post.organizedBy}</span>
+                                                    </label>
+                                                </div>
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Link>
                                     <CardActions>
                                         <Link to={`/event/${post.eventId}`} className="btn btn-light">View</Link>
                                     </CardActions>

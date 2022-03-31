@@ -3,12 +3,12 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookie from 'js-cookie'
 import axios from 'axios'
-import {useHistory as history} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Footer from './Footer'
+import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -17,16 +17,28 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
+function Copyright(props) {
+    return (
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" target="_blank" href="https://sgc.turntbloke.me/">
+                SGC RGUKT Basar
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 
 const theme = createTheme();
 
 const transport = axios.create({
     withCredentials: true,
 })
-export default function Verify({userSignUp, isAuthenticated, setisAuthenticated, setError, setSuccess, notifySuccess}) {
-    const [buttonState, setButtonState] = useState(false)
+export default function Verify({userSignUp, setError, setSuccess, setisAuthenticated, isAuthenticated}) {
     const [data, setData] = useState({email: userSignUp.email});
     const [created, setCreated] = useState(false);
+    const [buttonState, setButtonState] = useState(false);
     const isDisable = () => {
         if (buttonState) return true
         else if (data.otp) return false
@@ -41,21 +53,12 @@ export default function Verify({userSignUp, isAuthenticated, setisAuthenticated,
             Cookie.set('token', res.data.token)
             localStorage.setItem('token', res.data.token)
             setisAuthenticated({...isAuthenticated, status: true})
-            setSuccess(res.data)
+            setSuccess('Succesfully created account!')
             setError(null)
             setCreated(true)
-            history.push('/');
         }).catch(err => {
-            setButtonState(false)
-            toast.error(`${err.message}`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            setError(err.message)
+            setSuccess(null)
             console.log(err)
         })
     }
@@ -70,6 +73,7 @@ export default function Verify({userSignUp, isAuthenticated, setisAuthenticated,
                 throw new Error(res.data)
             }
         }).catch(err => {
+            console.log(err)
             toast.error(`${err.message}`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -81,10 +85,11 @@ export default function Verify({userSignUp, isAuthenticated, setisAuthenticated,
             });
             console.log(err)
             setButtonState(false)
+
         })
     };
-    // if (created) return <Redirect to='/' />
-    return (<>
+    if (created) return <Redirect to='' />
+    return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
@@ -101,8 +106,8 @@ export default function Verify({userSignUp, isAuthenticated, setisAuthenticated,
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
-                    </Typography>
-                    <div>OTP successfully sent to {data.email}</div>
+        </Typography>
+<div>OTP successfully sent to {data.email}</div>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -132,9 +137,8 @@ export default function Verify({userSignUp, isAuthenticated, setisAuthenticated,
                         </Button>
                     </Box>
                 </Box>
+                <Copyright sx={{mt: 5}} />
             </Container>
         </ThemeProvider>
-        <Footer />
-    </>
     );
 }

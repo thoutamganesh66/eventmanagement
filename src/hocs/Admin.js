@@ -1,3 +1,5 @@
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {useState, useEffect} from 'react'
 import {DropzoneAreaBase} from "material-ui-dropzone";
 import Button from '@material-ui/core/Button';
@@ -46,9 +48,9 @@ const Admin = ({setSuccess, setError}) => {
         setOrganiser(e.target.value);
     }
 
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState(null);
     const [description, setDescription] = useState("Hello markdown!");
-    const [contact, setContact] = useState("");
+    const [contact, setContact] = useState(null);
     const [organiser, setOrganiser] = useState("Food");
     const [loading, setLoading] = useState(true);
     const [seatCount, setSeatCount] = useState(null)
@@ -65,41 +67,54 @@ const Admin = ({setSuccess, setError}) => {
     };
 
     const submitHandler = (e) => {
-        console.log(description)
-        e.preventDefault();
-        const uploadData = new FormData();;
-        uploadData.append('title', title);
-        uploadData.append('description', description);
-        uploadData.append('contactDetails', contact);
-        uploadData.append('organizedBy', organiser);
-        uploadData.append('date', document.getElementById('dat').value);
-        uploadData.append('file', files[0].file, files[0].file.name);
-        uploadData.append('seatCount', seatCount)
+        if (title && description && contact && organiser) {
 
-        const url = `${REACT_APP_API_URL}/admin/addevent`;
+            console.log(description)
+            e.preventDefault();
+            const uploadData = new FormData();;
+            uploadData.append('title', title);
+            uploadData.append('description', description);
+            uploadData.append('contactDetails', contact);
+            uploadData.append('organizedBy', organiser);
+            uploadData.append('date', document.getElementById('dat').value);
+            uploadData.append('file', files[0].file, files[0].file.name);
+            uploadData.append('seatCount', seatCount)
 
-        console.log(uploadData);
-        console.log(title);
+            const url = `${REACT_APP_API_URL}/admin/addevent`;
 
-        axios.post(url, uploadData, {
-            headers: {
-                'content-type': 'multipart/form-data',
-            }
-        })
-            .then(res => {
-                if (res.status != 200) {
-                    throw new Error(res.data);
+            console.log(uploadData);
+            console.log(title);
+
+            axios.post(url, uploadData, {
+                headers: {
+                    'content-type': 'multipart/form-data',
                 }
-                console.log(res.data);
-                isUploaded(true);
-                window.alert("Upload Successful");
-                setError(null)
             })
-            .catch(err => {
-                console.log(err)
-                setSuccess(null)
-                setError(err.message)
-            })
+                .then(res => {
+                    if (res.status != 200) {
+                        throw new Error(res.data);
+                    }
+                    console.log(res.data);
+                    isUploaded(true);
+                    window.alert("Upload Successful");
+                    setError(null)
+                })
+                .catch(err => {
+                    console.log(err)
+                    setSuccess(null)
+                    setError(err.message)
+                })
+        } else {
+            toast.error(`Some field is missing.`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
     }
 
     if (loading) return <div>please wait</div>

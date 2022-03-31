@@ -3,9 +3,9 @@ import {useEffect} from 'react'
 import React from 'react';
 import QrScanner from 'qr-scanner';
 import '../App.css';
-import {useHistory as history, Redirect} from 'react-router-dom'
-
+import {useHistory, Redirect} from 'react-router-dom'
 function Scanner({isAuthenticated}) {
+    const history = useHistory();
 
     const main = async () => {
 
@@ -45,6 +45,7 @@ function Scanner({isAuthenticated}) {
                 // setLoading(false)
             } else {
                 history.push('/')
+                console.log('hellow rodl')
             }
         }).catch((err) => {
             console.log(err)
@@ -53,7 +54,6 @@ function Scanner({isAuthenticated}) {
     useEffect(() => {
         main2();
     }, [])
-
     return (
         <div className="App">
             <div ><button className='button' onClick={e => main()}>

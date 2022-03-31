@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './Components/Footer'
 import './App.css'
 import Alert from '@mui/material/Alert'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -71,11 +72,10 @@ const App = () => {
 
     return (
         <Router>
-            <ToastContainer />
             <Navbar setRedirect={setRedirect} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} />
-            {error ? <Alert onClose={() => {setError(null)}} className='error br-0' variant="filled" severity="error">
+            {error ? <Alert key="error" onClose={() => {setError(null)}} className='error br-0' variant="filled" severity="error">
                 {error}            </Alert> : <></>}
-            {success ? <Alert onClose={() => {setSuccess(null)}} className='success br-0' variant="filled" severity="success">
+            {success ? <Alert key="success" onClose={() => {setSuccess(null)}} className='success br-0' variant="filled" severity="success">
                 {success}            </Alert> : <></>}
             <Switch>
                 <Route exact path='/' component={Home} />
@@ -97,10 +97,11 @@ const App = () => {
                 </Route>
 
                 <Route exact path='/scanner'>
-                    <Scanner isAuthenticated={isAuthenticated} setisAuthenticated={setisAuthenticated}/>
+                    <Scanner isAuthenticated={isAuthenticated} setisAuthenticated={setisAuthenticated} />
                 </Route>
-            </Switch>
 
+            </Switch>
+            <Footer />
         </Router>)
 };
 

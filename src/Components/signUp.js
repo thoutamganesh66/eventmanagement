@@ -16,7 +16,6 @@ import Verify from './verify'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import Footer from './Footer';
 
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 
@@ -25,7 +24,7 @@ const theme = createTheme();
 const transport = axios.create({
     withCredentials: true,
 })
-export default function SignUp({setisAuthenticated, isAuthenticated, error, setError, setSuccess}) {
+export default function SignUp({setisAuthenticated, isAuthenticated, error, setError, setSuccess, notifySuccess}) {
     const [userSignUp, setUserSignUp] = useState({})
     const [confirmPassword, setConfirmPassword] = useState(null);
     const [sentMail, setSentMail] = useState(false);
@@ -83,7 +82,6 @@ export default function SignUp({setisAuthenticated, isAuthenticated, error, setE
         }
         else {
             console.log('password mismatch')
-            setButtonState(false)
             toast.error("Password mismatch", {
                 position: "top-right",
                 autoClose: 5000,
@@ -93,17 +91,19 @@ export default function SignUp({setisAuthenticated, isAuthenticated, error, setE
                 draggable: true,
                 progress: undefined,
             });
+            setButtonState(false)
         }
     };
     if (isAuthenticated.status) return <Redirect to='/' />
     else if (sentMail) {
 
-        return <Verify isAuthenticated={isAuthenticated} setisAuthenticated={setisAuthenticated} userSignUp={userSignUp} error={error} setError={setError} setSuccess={setSuccess} />
+        return <Verify notifySuccess={notifySuccess} isAuthenticated={isAuthenticated} setisAuthenticated={setisAuthenticated} userSignUp={userSignUp} error={error} setError={setError} setSuccess={setSuccess} />
     }
     return (
         <>
+        <ToastContainer/>
             <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
+                <Container component="main" maxWidth="xs" style={{marginBottom: "8rem"}}>
                     <CssBaseline />
                     <Box
                         sx={{
@@ -193,8 +193,6 @@ export default function SignUp({setisAuthenticated, isAuthenticated, error, setE
                     </Box>
                 </Container>
             </ThemeProvider>
-            {Footer}
-            <Footer />
         </>
     );
 }

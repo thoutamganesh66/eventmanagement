@@ -1,20 +1,17 @@
-
 import './home.css';
 import Slides from './Slides';
 
 import * as React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-
 import Posts from './Posts';
 import axios from 'axios';
 import './posts.css'
 
-import Footer from './Footer';
 
 
 function TabPanel(props) {
@@ -101,9 +98,12 @@ const Home = () => {
         })
     }, [])
 
-
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     return (
+
         <>
             <div className="container-fluid home">
                 {postsOngoing !== undefined && postsUpcoming !== undefined ? <Slides postsOngoing={postsOngoing} postsUpcoming={postsUpcoming} /> : "Loading"}
@@ -127,8 +127,6 @@ const Home = () => {
                     </TabPanel>
                 </Box>
             </div>
-            {Footer}
-            <Footer />
         </>
     );
 }

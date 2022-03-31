@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from "react";
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from "react-markdown";
 import {useHistory} from "react-router-dom/cjs/react-router-dom.min";
 
-import Footer from './Footer';
 
 const date = new Date();
 const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
@@ -106,13 +107,31 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                 console.log("server response", res.data);
                 setIsRegistered(true);
                 setSuccess("Registration mail sent.")
+
+                toast.success(`Registration mail  sent`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setError(null)
             })
             .catch((err) => {
-                setError(err.message)
+
+                toast.error(`${err.message}`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setButtonState(false)
                 setIsRegistered(false)
-                setSuccess(null)
                 console.log(err)
             });
     };
@@ -182,8 +201,6 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                             </div>
                         </div>
                     </div>
-                    {Footer}
-                    <Footer />
                 </>
             )}
         </>

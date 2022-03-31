@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Footer from './Footer';
 import axios from 'axios'
 import Cookie from 'js-cookie'
 import {Link as RouteLink, useHistory} from 'react-router-dom'
@@ -69,7 +68,7 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
     return (
         <>
             <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
+                <Container component="main" maxWidth="xs" style={{marginBottom: "6rem"}}>
                     <CssBaseline />
                     <Box
                         sx={{
@@ -140,7 +139,6 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                     </Box>
                 </Container>
             </ThemeProvider>
-            <Footer />
         </>
     )
 }

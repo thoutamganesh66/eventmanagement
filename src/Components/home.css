@@ -25,6 +25,7 @@
     background-color: #e0e0e0 !important;
     border-radius: 4px !important;
     color: #acadad !important;
+    cursor:disabled;
 }
 .login-page{
     box-shadow: none !important;
