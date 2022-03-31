@@ -1,5 +1,5 @@
-import {useState} from 'react';
-import {Link as RouterLink} from 'react-router-dom'
+import {useState, useEffect} from 'react';
+import {Link as RouterLink, Redirect} from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
 import axios from 'axios'
 import Button from '@mui/material/Button';
@@ -25,12 +25,14 @@ const theme = createTheme();
 const transport = axios.create({
     withCredentials: true,
 })
-export default function SignUp({setIsAuthenticated, isAuthenticated, error, setError, setSuccess}) {
+export default function SignUp({setisAuthenticated, isAuthenticated, error, setError, setSuccess}) {
     const [userSignUp, setUserSignUp] = useState({})
     const [confirmPassword, setConfirmPassword] = useState(null);
     const [sentMail, setSentMail] = useState(false);
     const [buttonState, setButtonState] = useState(false);
-
+    useEffect(() => {
+        setisAuthenticated({...isAuthenticated, status: false})
+    }, [])
     const isDisable = () => {
         if (buttonState) {
             return true
@@ -93,13 +95,13 @@ export default function SignUp({setIsAuthenticated, isAuthenticated, error, setE
             });
         }
     };
-    if (sentMail) {
+    if (isAuthenticated.status) return <Redirect to='/' />
+    else if (sentMail) {
 
-        return <Verify isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} userSignUp={userSignUp} error={error} setError={setError} setSuccess={setSuccess} />
+        return <Verify isAuthenticated={isAuthenticated} setisAuthenticated={setisAuthenticated} userSignUp={userSignUp} error={error} setError={setError} setSuccess={setSuccess} />
     }
     return (
         <>
-            <ToastContainer />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />

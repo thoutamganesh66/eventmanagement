@@ -3,7 +3,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookie from 'js-cookie'
 import axios from 'axios'
-import {Redirect} from 'react-router-dom'
+import {useHistory as history} from 'react-router-dom'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -23,7 +23,7 @@ const theme = createTheme();
 const transport = axios.create({
     withCredentials: true,
 })
-export default function Verify({userSignUp, isAuthenticated, setIsAuthenticated, setError, setSuccess}) {
+export default function Verify({userSignUp, isAuthenticated, setisAuthenticated, setError, setSuccess, notifySuccess}) {
     const [buttonState, setButtonState] = useState(false)
     const [data, setData] = useState({email: userSignUp.email});
     const [created, setCreated] = useState(false);
@@ -40,10 +40,11 @@ export default function Verify({userSignUp, isAuthenticated, setIsAuthenticated,
             }
             Cookie.set('token', res.data.token)
             localStorage.setItem('token', res.data.token)
-            setIsAuthenticated({...isAuthenticated, status: true})
+            setisAuthenticated({...isAuthenticated, status: true})
             setSuccess(res.data)
             setError(null)
             setCreated(true)
+            history.push('/');
         }).catch(err => {
             setButtonState(false)
             toast.error(`${err.message}`, {
@@ -82,9 +83,8 @@ export default function Verify({userSignUp, isAuthenticated, setIsAuthenticated,
             setButtonState(false)
         })
     };
-    if (created) return <Redirect to='/' />
+    // if (created) return <Redirect to='/' />
     return (<>
-        <ToastContainer />
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />

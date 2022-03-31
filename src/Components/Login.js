@@ -55,7 +55,6 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
 
             }
             else {
-                // setError(res.data)
                 console.log(res.data)
                 notify(res.data)
                 setButtonState(false)
@@ -67,10 +66,8 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
         })
     };
 
-
     return (
         <>
-            <ToastContainer />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
@@ -116,7 +113,7 @@ export default function Login({setisAuthenticated, isAuthenticated, setError, re
                                 type="button"
                                 fullWidth
                                 variant="contained"
-                                disable={userDetails.password && userDetails.email && buttonstate}
+                                disabled={userDetails.password && userDetails.email && buttonstate}
                                 className={buttonstate ? "disable-sign-in" : "sign-in"}
                                 sx={{mt: 3, mb: 2}}
                                 onClick={e => handleSubmit(e)}

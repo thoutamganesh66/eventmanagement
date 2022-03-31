@@ -16,7 +16,17 @@ import ForgotPassword from './Components/forgotpassword'
 import Scanner from './Components/Scanner';
 
 const App = () => {
-
+    const notifySuccess = (msg) => {
+        toast.success(`${msg}`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
     const [redirect, setRedirect] = useState('');
     const REACT_APP_API_URL = process.env.REACT_APP_API_URL
     const [error, setError] = useState(null);
@@ -79,15 +89,15 @@ const App = () => {
                     <Event setRedirect={setRedirect} isAuthenticated={isAuthenticated} setError={setError} setSuccess={setSuccess} />
                 </Route>
                 <Route exact path='/signup'>
-                    <SignUp error={error} setError={setError} success={success} setSuccess={setSuccess} />
+                    <SignUp notifySuccess={notifySuccess} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} error={error} setError={setError} success={success} setSuccess={setSuccess} />
                 </Route>
 
                 <Route exact path='/resetpassword' >
-                    <ForgotPassword isAuthenticated={isAuthenticated} setIsAuthenticated={setisAuthenticated} error={error} setError={setError} setSuccess={setSuccess} />
+                    <ForgotPassword notifySuccess={notifySuccess} setisAuthenticated={setisAuthenticated} isAuthenticated={isAuthenticated} error={error} setError={setError} setSuccess={setSuccess} />
                 </Route>
 
                 <Route exact path='/scanner'>
-                    <Scanner />
+                    <Scanner isAuthenticated={isAuthenticated} setisAuthenticated={setisAuthenticated}/>
                 </Route>
             </Switch>
 

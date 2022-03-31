@@ -1,3 +1,4 @@
+import {useEffect} from 'react'
 import {Redirect} from 'react-router-dom'
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,7 +21,7 @@ const theme = createTheme();
 const transport = axios.create({
     withCredentials: true,
 })
-export default function ForgotPassword({setError, setSuccess}) {
+export default function ForgotPassword({setError, setSuccess, isAuthenticated, setisAuthenticated, notifySuccesss}) {
     const [userDetails, setUserDetails] = useState({});
     const [otp, setOtp] = useState();
     const [confirmpassword, setConfirmPassword] = useState();
@@ -34,8 +35,11 @@ export default function ForgotPassword({setError, setSuccess}) {
         return "sign-in"
     }
     const resetButton = () => {
-        if (verify) return false;
-        else if (userDetails.password && confirmpassword) return false;
+        if (verify) {
+            if (userDetails.password && confirmpassword) {
+                return false
+            }
+        }
         return true;
     }
 
@@ -75,7 +79,6 @@ export default function ForgotPassword({setError, setSuccess}) {
             console.log(err)
         })
     }
-
     const otpverify = (e) => {
         console.log(otp)
         e.preventDefault();
@@ -118,7 +121,7 @@ export default function ForgotPassword({setError, setSuccess}) {
                 if (res.status != 200) {
                     throw new Error(res.data);
                 }
-                setSuccess("passsword reset successfully!")
+                setSuccess("passsword reset successfull");
                 setError(null)
                 setRedirect(true)
             }).catch(err => {
@@ -140,10 +143,10 @@ export default function ForgotPassword({setError, setSuccess}) {
             });
         }
     }
-    if (redirect) return <Redirect to='/' />
+    if (isAuthenticated.status) return <Redirect to ='/' />
+    else if (redirect) return <Redirect to='/' />
     return (
         <>
-            <ToastContainer />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
