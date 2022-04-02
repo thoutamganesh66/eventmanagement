@@ -106,7 +106,7 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
                 }
                 console.log("server response", res.data);
                 setIsRegistered(true);
-                setSuccess("Registration mail sent.")
+                // setSuccess("Registration mail sent.")
 
                 toast.success(`Registration mail  sent`, {
                     position: "top-right",
@@ -137,6 +137,7 @@ const Event = ({isAuthenticated, setError, setSuccess, setRedirect}) => {
     };
     return (
         <>
+            <ToastContainer />
             {eventDetails == null ? (
                 <>Loading..</>
             ) : (

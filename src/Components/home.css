@@ -3,7 +3,12 @@
     /* background-color: hsl(205, 100%, 96%); */
 
 }
+.align{
+    display: flex;
+    justify-content: center;
+    margin-left: -75px;
 
+}
 .footer{
     background-color:#303f9f;
     bottom:0;
